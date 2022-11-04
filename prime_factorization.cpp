@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
 {
     if (argc != 2 || !isPositiveInteger(argv[1])) 
     {
-        cerr << "Input must be a positive integer." << endl;
+        cerr << "Input must be a positive integer.";
         return 1;
     }
     char *end;
@@ -72,8 +72,8 @@ int main(int argc, char *argv[])
         cerr << "Input is too large. Maximum input allowed is 2^64-1 = 18446744073709551615.";
         return 1;
     }
-    if (num <= 1) {cout << num << " is neither prime nor composite." << endl;}
-    else if (lowestFactor(num) == num) {cout << num << " is prime." << endl;}
+    if (num <= 1) {cout << num << " is neither prime nor composite.";}
+    else if (lowestFactor(num) == num) {cout << num << " is prime.";}
     else
     {
         vector<ull> uniqueFactors; // unique prime factors of num
@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
             if (exponents.at(i) == 1) {cout << " * " << uniqueFactors.at(i);}
             else {cout << " * " << uniqueFactors.at(i) << "^" << exponents.at(i);}
         }
-        cout << endl;
     }
+    cout << endl;
     return 0;
 }
