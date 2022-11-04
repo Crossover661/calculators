@@ -31,18 +31,6 @@ ull lowestFactor(ull num)
     }
     return num;
 }
-void exponentialForm(vector<ull> factorization, vector<ull>* uniqueFactors, vector<int>* exponents)
-{
-    while(factorization.size() > 0)
-    {
-        // converts factorization to exponential form
-        int exponent;
-        (*uniqueFactors).push_back(factorization.front());
-        exponent = count(factorization.begin(), factorization.end(), factorization.front());
-        (*exponents).push_back(exponent);
-        factorization.erase(factorization.begin(), factorization.begin() + exponent);
-    }
-}
 vector<ull> factors(ull num)
 {
     // returns all prime factors of a number, as a vector
@@ -55,6 +43,18 @@ vector<ull> factors(ull num)
         num /= factor;
     }
     return listFactors;
+}
+void exponentialForm(vector<ull> factorization, vector<ull>* uniqueFactors, vector<int>* exponents)
+{
+    while(factorization.size() > 0)
+    {
+        // converts factorization to exponential form
+        int exponent;
+        (*uniqueFactors).push_back(factorization.front());
+        exponent = count(factorization.begin(), factorization.end(), factorization.front());
+        (*exponents).push_back(exponent);
+        factorization.erase(factorization.begin(), factorization.begin() + exponent);
+    }
 }
 int main(int argc, char *argv[])
 {
