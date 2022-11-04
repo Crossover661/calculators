@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
     ull num = strtoull(argv[1], &end, 10);
     if (errno == ERANGE)
     {
-        // if number is larger than the maximum value of an ull, 2^64-1
+        // if number is larger than the maximum value of an unsigned long long, 2^64-1
         cerr << "Input is too large. Maximum input allowed is 2^64-1 = 18446744073709551615.";
         return 1;
     }
