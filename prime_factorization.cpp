@@ -6,7 +6,8 @@ typedef unsigned long long ull; // defines "ull" as shorthand for "unsigned long
 using namespace std;
 bool isPositiveInteger(char str[])
 {
-    /* Detects whether all characters in the string are numeric. Strings corresponding to negative numbers, scientific notation, and integers written as decimals (such as "3.0") all return false. */
+    /* Detects whether all characters in the string are numeric. Strings corresponding to negative
+    numbers, scientific notation, and integers written as decimals (such as "3.0") all return false. */
     for (int i = 0; str[i] != '\0'; i++) {if (!isdigit(str[i])) {return false;}}
     return true;
 }
