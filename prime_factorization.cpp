@@ -7,7 +7,7 @@ using namespace std;
 bool isPositiveInteger(char str[])
 {
     /* Detects whether all characters in the string are numeric. Strings corresponding to negative numbers, scientific notation, and integers written as decimals (such as "3.0") all return false. */
-    for (int i=0; str[i]!='\0'; i++) {if (!isdigit(str[i])) {return false;}}
+    for (int i = 0; str[i] != '\0'; i++) {if (!isdigit(str[i])) {return false;}}
     return true;
 }
 ull lowestFactor(ull num)
@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
         cout << num << " = ";
         if (exponents.front() == 1) {cout << uniqueFactors.front();}
         else {cout << uniqueFactors.front() << "^" << exponents.front();}
-        for (int i=1; i<uniqueFactors.size(); i++)
+        for (int i = 1; i < uniqueFactors.size(); i++)
         {
             if (exponents.at(i) == 1) {cout << " * " << uniqueFactors.at(i);}
             else {cout << " * " << uniqueFactors.at(i) << "^" << exponents.at(i);}
