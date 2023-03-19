@@ -50,7 +50,7 @@ void exponentialForm(vector<ull>& factorization, vector<ull>& uniqueFactors, vec
     // Converts factorization into an exponential form with two vectors, representing the unique factors and the exponents.
     // Note: factorization vector is already sorted least-to-greatest.
     int exponent = 0;
-    int curFactor = factorization[0];
+    ull curFactor = factorization[0];
     for (int i=0; i<factorization.size(); i++)
     {
         if (factorization[i] == curFactor)
