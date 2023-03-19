@@ -22,13 +22,13 @@ ull lowestFactor(ull num)
     {
         // eliminates multiples of 2, 3, and 5
         if (num % i == 0) {return i;}
-        if (num % (i + 4) == 0) {return i + 4;}
-        if (num % (i + 6) == 0) {return i + 6;}
-        if (num % (i + 10) == 0) {return i + 10;}
-        if (num % (i + 12) == 0) {return i + 12;}
-        if (num % (i + 16) == 0) {return i + 16;}
-        if (num % (i + 22) == 0) {return i + 22;}
-        if (num % (i + 24) == 0) {return i + 24;}
+        if (num % (i+4) == 0) {return i+4;}
+        if (num % (i+6) == 0) {return i+6;}
+        if (num % (i+10) == 0) {return i+10;}
+        if (num % (i+12) == 0) {return i+12;}
+        if (num % (i+16) == 0) {return i+16;}
+        if (num % (i+22) == 0) {return i+22;}
+        if (num % (i+24) == 0) {return i+24;}
     }
     return num;
 }
@@ -45,17 +45,28 @@ vector<ull> factors(ull num)
     }
     return listFactors;
 }
-void exponentialForm(vector<ull> factorization, vector<ull>* uniqueFactors, vector<int>* exponents)
+void exponentialForm(vector<ull>& factorization, vector<ull>& uniqueFactors, vector<int>& exponents)
 {
-    while(factorization.size() > 0)
+    // Converts factorization into an exponential form with two vectors, representing the unique factors and the exponents.
+    // Note: factorization vector is already sorted least-to-greatest.
+    int exponent = 0;
+    int curFactor = factorization[0];
+    for (int i=0; i<factorization.size(); i++)
     {
-        // converts factorization to exponential form
-        int exponent;
-        (*uniqueFactors).push_back(factorization.front());
-        exponent = count(factorization.begin(), factorization.end(), factorization.front());
-        (*exponents).push_back(exponent);
-        factorization.erase(factorization.begin(), factorization.begin() + exponent);
+        if (factorization[i] == curFactor)
+        {
+            exponent++;
+        }
+        else
+        {
+            uniqueFactors.push_back(curFactor);
+            exponents.push_back(exponent);
+            curFactor = factorization[i];
+            exponent = 1;
+        }
     }
+    uniqueFactors.push_back(curFactor);
+    exponents.push_back(exponent);
 }
 int main(int argc, char *argv[])
 {
@@ -77,17 +88,18 @@ int main(int argc, char *argv[])
     else if (lowestFactor(num) == num) {cout << num << " is prime.";}
     else
     {
+        vector<ull> factorization = factors(num);
         vector<ull> uniqueFactors; // unique prime factors of num
         vector<int> exponents; // exponents in the prime factorization of num
         cout << num << " is composite. ";
-        exponentialForm(factors(num), &uniqueFactors, &exponents);
+        exponentialForm(factorization, uniqueFactors, exponents);
         cout << num << " = ";
-        if (exponents.front() == 1) {cout << uniqueFactors.front();}
-        else {cout << uniqueFactors.front() << "^" << exponents.front();}
+        if (exponents[0] == 1) {cout << uniqueFactors[0];}
+        else {cout << uniqueFactors[0] << "^" << exponents[0];}
         for (int i = 1; i < uniqueFactors.size(); i++)
         {
-            if (exponents.at(i) == 1) {cout << " * " << uniqueFactors.at(i);}
-            else {cout << " * " << uniqueFactors.at(i) << "^" << exponents.at(i);}
+            if (exponents[i] == 1) {cout << " * " << uniqueFactors[i];}
+            else {cout << " * " << uniqueFactors[i] << "^" << exponents[i];}
         }
     }
     cout << endl;
