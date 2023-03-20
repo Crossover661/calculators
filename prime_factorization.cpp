@@ -2,7 +2,7 @@
 #include <cmath> // sqrt
 #include <vector> // vectors
 #include <algorithm> // count
-typedef unsigned long long ull; // defines "ull" as shorthand for "unsigned long long"
+#include <cstdint> // uint64_t
 using namespace std;
 bool isPositiveInteger(char str[])
 {
@@ -11,14 +11,14 @@ bool isPositiveInteger(char str[])
     for (int i = 0; str[i] != '\0'; i++) {if (!isdigit(str[i])) {return false;}}
     return true;
 }
-ull lowestFactor(ull num)
+uint64_t lowestFactor(uint64_t num)
 {
     // returns lowest factor of a number
     if (num % 2 == 0) {return 2;}
     if (num % 3 == 0) {return 3;}
     if (num % 5 == 0) {return 5;}
-    ull squareRoot = sqrt((long double)num);
-    for (ull i = 7; i <= squareRoot; i += 30)
+    uint64_t squareRoot = sqrt((long double)num);
+    for (uint64_t i = 7; i <= squareRoot; i += 30)
     {
         // eliminates multiples of 2, 3, and 5
         if (num % i == 0) {return i;}
@@ -32,11 +32,11 @@ ull lowestFactor(ull num)
     }
     return num;
 }
-vector<ull> factors(ull num)
+vector<uint64_t> factors(uint64_t num)
 {
     // returns all prime factors of a number, as a vector
-    vector<ull> listFactors;
-    ull factor;
+    vector<uint64_t> listFactors;
+    uint64_t factor;
     while (num > 1)
     {
         factor = lowestFactor(num);
@@ -45,12 +45,12 @@ vector<ull> factors(ull num)
     }
     return listFactors;
 }
-void exponentialForm(vector<ull>& factorization, vector<ull>& uniqueFactors, vector<int>& exponents)
+void exponentialForm(vector<uint64_t>& factorization, vector<uint64_t>& uniqueFactors, vector<int>& exponents)
 {
     // Converts factorization into an exponential form with two vectors, representing the unique factors and the exponents.
     // Note: factorization vector is already sorted least-to-greatest.
     int exponent = 0;
-    ull curFactor = factorization[0];
+    uint64_t curFactor = factorization[0];
     for (int i=0; i<factorization.size(); i++)
     {
         if (factorization[i] == curFactor)
@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
     }
     char *end;
     errno = 0;
-    ull num = strtoull(argv[1], &end, 10);
+    uint64_t num = strtoull(argv[1], &end, 10);
     if (errno == ERANGE)
     {
         // if number is larger than the maximum value of an unsigned long long, 2^64-1
@@ -88,8 +88,8 @@ int main(int argc, char *argv[])
     else if (lowestFactor(num) == num) {cout << num << " is prime.";}
     else
     {
-        vector<ull> factorization = factors(num);
-        vector<ull> uniqueFactors; // unique prime factors of num
+        vector<uint64_t> factorization = factors(num);
+        vector<uint64_t> uniqueFactors; // unique prime factors of num
         vector<int> exponents; // exponents in the prime factorization of num
         cout << num << " is composite. ";
         exponentialForm(factorization, uniqueFactors, exponents);
