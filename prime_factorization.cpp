@@ -4,7 +4,7 @@
 #include <algorithm> // count
 #include <cstdint> // uint64_t
 using namespace std;
-bool isPositiveInteger(char str[])
+bool isPositiveInteger(char *str)
 {
     /* Detects whether all characters in the string are numeric. Strings corresponding to negative
     numbers, scientific notation, and integers written as decimals (such as "3.0") all return false. */
