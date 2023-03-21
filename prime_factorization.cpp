@@ -1,7 +1,6 @@
 #include <iostream>
 #include <cmath> // sqrt
 #include <vector> // vectors
-#include <algorithm> // count
 #include <cstdint> // uint64_t
 using namespace std;
 bool isPositiveInteger(char *str)
