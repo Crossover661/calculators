@@ -71,12 +71,9 @@ int main(int argc, char *argv[]) {
         char *end;
         errno = 0;
         uint64_t num = strtoull(argv[i], &end, 10);
-        if (errno == ERANGE) {
-            // Return error if number is larger than the maximum value of uint64_t, 2^64-1.
-            cerr << "Input is too large. Maximum input allowed is 2^64-1 = 18446744073709551615.";
-            return 1;
-        }
-        if (num <= 1) {cout << num << " is neither prime nor composite.";}
+        if (!isPositiveInteger(argv[i])) {cout << "Input must be a positive integer.";}
+        else if (errno == ERANGE) {cout << "Input is too large. Maximum value allowed is 2^64-1 = 18446744073709551615.";}
+        else if (num <= 1) {cout << num << " is neither prime nor composite.";}
         else if (lowestFactor(num) == num) {cout << num << " is prime.";}
         else {
             cout << num << " is composite. ";
