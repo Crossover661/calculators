@@ -2,23 +2,16 @@
 #include <cmath> // sqrt
 #include <vector> // vectors
 #include <cstdint> // uint64_t
+#include <string> // string, stoull
 using namespace std;
-bool isPositiveInteger(char *str)
-{
-    /* Detects whether all characters in the string are numeric. Strings corresponding to negative
-    numbers, scientific notation, and integers written as decimals (such as "3.0") all return false. */
-    for (int i = 0; str[i] != '\0'; i++) {if (!isdigit(str[i])) {return false;}}
-    return true;
-}
-uint64_t lowestFactor(uint64_t num)
-{
+
+uint64_t lowestFactor(uint64_t num) {
     // returns lowest factor of a number
     if (num % 2 == 0) {return 2;}
     if (num % 3 == 0) {return 3;}
     if (num % 5 == 0) {return 5;}
     uint64_t squareRoot = sqrt((long double)num);
-    for (uint64_t i = 7; i <= squareRoot; i += 30)
-    {
+    for (uint64_t i = 7; i <= squareRoot; i += 30) {
         // eliminates multiples of 2, 3, and 5
         if (num % i == 0) {return i;}
         if (num % (i+4) == 0) {return i+4;}
@@ -31,33 +24,29 @@ uint64_t lowestFactor(uint64_t num)
     }
     return num;
 }
-vector<uint64_t> factors(uint64_t num)
-{
+vector<uint64_t> factors(uint64_t num) {
     // returns all prime factors of a number, as a vector
     vector<uint64_t> listFactors;
     uint64_t factor;
-    while (num > 1)
-    {
+    while (num > 1) {
         factor = lowestFactor(num);
         listFactors.push_back(factor);
         num /= factor;
     }
     return listFactors;
 }
-void exponentialForm(vector<uint64_t>& factorization, vector<uint64_t>& uniqueFactors, vector<int>& exponents)
-{
+vector<vector<uint64_t>> exponentialForm(vector<uint64_t>& factorization) {
     // Converts factorization into an exponential form with two vectors, representing the unique factors and the exponents.
     // Note: factorization vector is already sorted least-to-greatest.
     int exponent = 0;
+    vector<uint64_t> uniqueFactors;
+    vector<uint64_t> exponents;
     uint64_t curFactor = factorization[0];
-    for (int i=0; i<factorization.size(); i++)
-    {
-        if (factorization[i] == curFactor)
-        {
+    for (int i=0; i<factorization.size(); i++) {
+        if (factorization[i] == curFactor) {
             exponent++;
         }
-        else
-        {
+        else {
             uniqueFactors.push_back(curFactor);
             exponents.push_back(exponent);
             curFactor = factorization[i];
@@ -66,41 +55,45 @@ void exponentialForm(vector<uint64_t>& factorization, vector<uint64_t>& uniqueFa
     }
     uniqueFactors.push_back(curFactor);
     exponents.push_back(exponent);
+
+    return {uniqueFactors, exponents};
 }
-int main(int argc, char *argv[])
-{
-    if (argc != 2 || !isPositiveInteger(argv[1])) 
-    {
-        cerr << "Input must be a positive integer.";
+int main() {
+    string number;
+    cin >> number;
+    uint64_t num;
+    bool rangeError = false;
+
+    // handle range errors
+    try {num = stoull(number, nullptr, 10);}
+    catch (...) {rangeError = true;}
+    if (number[0] == '-') {rangeError = true;}
+    if (rangeError) {
+        cout << "Input must be an number between 0 and 18446744073709551615, inclusive." << endl;
         return 1;
     }
-    char *end;
-    errno = 0;
-    uint64_t num = strtoull(argv[1], &end, 10);
-    if (errno == ERANGE)
-    {
-        // if number is larger than the maximum value of an unsigned long long, 2^64-1
-        cerr << "Input is too large. Maximum input allowed is 2^64-1 = 18446744073709551615.";
-        return 1;
-    }
+    
+    // If there are no range errors, calculate the prime factorization of the given integer.
     if (num <= 1) {cout << num << " is neither prime nor composite.";}
-    else if (lowestFactor(num) == num) {cout << num << " is prime.";}
-    else
-    {
-        vector<uint64_t> factorization = factors(num);
-        vector<uint64_t> uniqueFactors; // unique prime factors of num
-        vector<int> exponents; // exponents in the prime factorization of num
-        cout << num << " is composite. ";
-        exponentialForm(factorization, uniqueFactors, exponents);
+    else if (lowestFactor(num) == num) {cout << num << " is a prime number.";}
+    else {
+        cout << num << " is a composite number." << endl;
         cout << num << " = ";
-        if (exponents[0] == 1) {cout << uniqueFactors[0];}
-        else {cout << uniqueFactors[0] << "^" << exponents[0];}
-        for (int i = 1; i < uniqueFactors.size(); i++)
-        {
-            if (exponents[i] == 1) {cout << " * " << uniqueFactors[i];}
-            else {cout << " * " << uniqueFactors[i] << "^" << exponents[i];}
+        vector<uint64_t> primeFactors = factors(num);
+        vector<vector<uint64_t>> factorized = exponentialForm(primeFactors);
+        vector<uint64_t> uniqueFactors = factorized[0];
+        vector<uint64_t> exponents = factorized[1];
+        for (int i=0; i<uniqueFactors.size()-1; i++) {
+            // print exponential form of prime factorization, up until last factor-exponent pair
+            if (exponents[i] == 1) {cout << uniqueFactors[i];}
+            else {cout << uniqueFactors[i] << "^" << exponents[i];}
+            cout << " * ";
         }
+        // print last factor-exponent pair
+        if (exponents.back() == 1) {cout << uniqueFactors.back();}
+        else {cout << uniqueFactors.back() << "^" << exponents.back();}
     }
+
     cout << endl;
     return 0;
 }
