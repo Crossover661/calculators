@@ -32,7 +32,6 @@ uint64_t lowestFactor(uint64_t num) {
     if (num % 5 == 0) {return 5;}
     uint64_t squareRoot = intSqrt(num);
     for (uint64_t i = 7; i <= squareRoot; i += 30) {
-        // eliminates multiples of 2, 3, and 5
         if (num % i == 0) {return i;}
         if (num % (i+4) == 0) {return i+4;}
         if (num % (i+6) == 0) {return i+6;}
