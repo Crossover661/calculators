@@ -29,10 +29,18 @@ uint64_t lowestFactor(uint64_t num) {
     // Calculates the lowest prime factor of num.
     if (num % 2 == 0) {return 2;}
     if (num % 3 == 0) {return 3;}
+    if (num % 5 == 0) {return 5;}
     uint64_t squareRoot = intSqrt(num);
-    for (uint64_t i = 5; i <= squareRoot; i += 6) {
+    for (uint64_t i = 7; i <= squareRoot; i += 30) {
+        // eliminates multiples of 2, 3, and 5
         if (num % i == 0) {return i;}
-        if (num % (i+2) == 0) {return i+2;}
+        if (num % (i+4) == 0) {return i+4;}
+        if (num % (i+6) == 0) {return i+6;}
+        if (num % (i+10) == 0) {return i+10;}
+        if (num % (i+12) == 0) {return i+12;}
+        if (num % (i+16) == 0) {return i+16;}
+        if (num % (i+22) == 0) {return i+22;}
+        if (num % (i+24) == 0) {return i+24;}
     }
     return num;
 }
