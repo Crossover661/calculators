@@ -29,18 +29,10 @@ uint64_t lowestFactor(uint64_t num) {
     // Calculates the lowest prime factor of num.
     if (num % 2 == 0) {return 2;}
     if (num % 3 == 0) {return 3;}
-    if (num % 5 == 0) {return 5;}
     uint64_t squareRoot = intSqrt(num);
-    for (uint64_t i = 7; i <= squareRoot; i += 30) {
-        // eliminates multiples of 2, 3, and 5
+    for (uint64_t i = 5; i <= squareRoot; i += 6) {
         if (num % i == 0) {return i;}
-        if (num % (i+4) == 0) {return i+4;}
-        if (num % (i+6) == 0) {return i+6;}
-        if (num % (i+10) == 0) {return i+10;}
-        if (num % (i+12) == 0) {return i+12;}
-        if (num % (i+16) == 0) {return i+16;}
-        if (num % (i+22) == 0) {return i+22;}
-        if (num % (i+24) == 0) {return i+24;}
+        if (num % (i+2) == 0) {return i+2;}
     }
     return num;
 }
@@ -50,20 +42,11 @@ vector<uiPair> factorization(uint64_t num) {
     vector<uiPair> factors;
     while (num > 1) {
         uint64_t curFactor = lowestFactor(num);
-        if (factors.empty() || factors.back().first != curFactor) {
-            factors.push_back({curFactor, 1});
-        }
-        else {
-            (factors.back().second)++;
-        }
+        if (factors.empty() || factors.back().first != curFactor) {factors.push_back({curFactor, 1});}
+        else {(factors.back().second)++;}
         num /= curFactor;
     }
     return factors;
-}
-
-void printFactor(uiPair factor) {
-    if (factor.second == 1) {cout << factor.first;}
-    else {cout << factor.first << "^" << factor.second;}
 }
 
 int main(int argc, char *argv[]) {
@@ -82,10 +65,11 @@ int main(int argc, char *argv[]) {
         else {
             cout << num << " is composite. " << num << " = ";
             vector<uiPair> factors = factorization(num);
-            printFactor(factors[0]);
+            if (factors[0].second == 1) {cout << factors[0].first;}
+            else {cout << factors[0].first << "^" << factors[0].second;}
             for (unsigned int j=1; j<factors.size(); j++) {
-                cout << " * ";
-                printFactor(factors[j]);
+                if (factors[j].second == 1) {cout << " * " << factors[j].first;}
+                else {cout << " * " << factors[j].first << "^" << factors[j].second;}
             }
         }
         cout << endl;
