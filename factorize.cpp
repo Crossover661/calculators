@@ -17,7 +17,7 @@ uint64_t intSqrt(uint64_t num) {
     // Returns the square root of num, rounded down.
     if (num <= 1) {return num;}
     uint64_t x = num;
-    uint64_t y = (x + 1)/2;
+    uint64_t y = (x - 1)/2 + 1;
     while (x > y) {
         x = y;
         y = (x + num/x)/2;
