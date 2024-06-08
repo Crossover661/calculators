@@ -5,11 +5,14 @@
 using namespace std;
 
 bool isPositiveInteger(char *str) {
+    /* Detects whether all characters in the string are numeric. Strings corresponding to negative
+    numbers, scientific notation, and integers written as decimals (such as "3.0") all return false. */
     for (int i = 0; str[i] != '\0'; i++) {if (!isdigit(str[i])) {return false;}}
     return true;
 }
 
 bool isPrime(unsigned int num) {
+    // Returns "true" is num is prime and "false" if it is not.
     if (num <= 1) {return false;}
     if (num == 2 || num == 3) {return true;}
     if (num % 2 == 0 || num % 3 == 0) {return false;}
