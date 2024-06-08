@@ -7,4 +7,4 @@ factorize: factorize.cpp
 	$(CXX) $(CXXFLAGS) -o factorize factorize.cpp
 
 clean:
-	rm -f factorize.exe
+	rm -f factorize
