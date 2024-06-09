@@ -24,8 +24,10 @@ bool isPrime(unsigned int num) {
 }
 
 int main(int argc, char *argv[]) {
-    if (argc != 3) {
-        cout << "Please provide a lower bound and an upper bound." << endl;
+    if (argc != 3 && argc != 5) {
+        cout << "Input must be of one of the following formats:" << endl;
+        cout << "./listPrimes <lowerBound> <upperBound>" << endl;
+        cout << "./listPrimes <lowerBound> <upperBound> <remainder> <modulus>" << endl;
         return 1;
     }
     if (!isPositiveInteger(argv[1]) || !isPositiveInteger(argv[2])) {
@@ -35,22 +37,34 @@ int main(int argc, char *argv[]) {
     errno = 0;
     unsigned int lowerBound = stoul(argv[1]);
     unsigned int upperBound = stoul(argv[2]);
+    unsigned int remainder = 0, modulus = 0;
+    if (argc == 5) {
+        if (!isPositiveInteger(argv[3]) || !isPositiveInteger(argv[4])) {
+            cout << "Remainder and modulus must be positive integers." << endl;
+            return 1;
+        }
+        modulus = stoul(argv[4]);
+        remainder = stoul(argv[3]) % modulus;
+    }
     if (lowerBound > upperBound) {
         cout << "Upper bound must be greater than or equal to lower bound" << endl;
         return 1;
     }
     if (upperBound - lowerBound > 100000) {
         cout << "Range must be less than or equal to 100000" << endl;
+        return 1;
     }
     vector<unsigned int> primes;
-    if (lowerBound <= 2) {primes.push_back(2);}
-    if (lowerBound % 2 == 0) {lowerBound++;}
     if (upperBound == 4294967295) {upperBound = 4294967294;} // Upper bound of 4294967295 = 2^32-1 causes the program to freeze
-    for (unsigned int i = lowerBound; i <= upperBound; i+=2) {
+    if (modulus == 0) {modulus = 1;}
+    if (modulus != 1) {
+        unsigned int adjustment = (remainder + modulus - (lowerBound % modulus)) % modulus;
+        lowerBound += adjustment;
+    }
+    for (unsigned int i = lowerBound; i <= upperBound; i+=modulus) {
         if (isPrime(i)) {primes.push_back(i);}
     }
     cout << "Number of primes: " << primes.size() << endl;
-
     string curLine = "";
     vector<string> lines;
     for (unsigned int i : primes) {

@@ -19,3 +19,4 @@ For the listPrimes.cpp calculator:
   Number of primes: 21
   101 103 107 109 113 127 131 137 139 149 151 157 163 167 173 179 181 191 193 197 199
   ```
+* One can also add modular restrictions with the syntax `./listPrimes <lowerBound> <upperBound> <x> <y>`, which lists primes congruent to x modulo y. Example: `./listPrimes 1 1000 9 10` prints prime numbers between 1 and 1000 that end in 9 in base 10.
