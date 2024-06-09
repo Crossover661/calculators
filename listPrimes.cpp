@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
         remainder = stoul(argv[3]) % modulus;
     }
     if (lowerBound > upperBound) {
-        cout << "Upper bound must be greater than or equal to lower bound" << endl;
+        cout << "Upper bound must be greater than or equal to lower bound." << endl;
         return 1;
     }
     if (upperBound - lowerBound > 100000) {
