@@ -58,7 +58,6 @@ int main(int argc, char *argv[]) {
     }
     vector<unsigned int> primes;
     if (upperBound == 4294967295) {upperBound = 4294967294;} // Upper bound of 4294967295 = 2^32-1 causes the program to freeze
-    if (modulus == 0) {modulus = 1;}
     if (modulus != 1) {
         unsigned int adjustment = (remainder + modulus - (lowerBound % modulus)) % modulus;
         lowerBound += adjustment;
