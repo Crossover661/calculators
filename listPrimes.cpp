@@ -52,8 +52,8 @@ int main(int argc, char *argv[]) {
         return 1;
     }
     if ((upperBound - lowerBound)/modulus > 100000) {
-        if (argc == 3) {cout << "Range included must be less than or equal to 100000" << endl;}
-        else {cout << "Range included must be less than or equal to 100000*modulus" << endl;}
+        if (argc == 3) {cout << "Range must be less than or equal to 100000" << endl;}
+        else {cout << "Range must be less than or equal to 100000*modulus" << endl;}
         return 1;
     }
     vector<unsigned int> primes;

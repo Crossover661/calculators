@@ -20,3 +20,4 @@ For the listPrimes.cpp calculator:
   101 103 107 109 113 127 131 137 139 149 151 157 163 167 173 179 181 191 193 197 199
   ```
 * One can also add modular restrictions with the syntax `./listPrimes <lowerBound> <upperBound> <x> <y>`, which lists primes congruent to x modulo y. Example: `./listPrimes 1 1000 9 10` prints prime numbers between 1 and 1000 that end in 9 in base 10.
+  * If modulus is set, then the number of values satisfying the modular congruence between the lower and upper bounds must be less than or equal to 100000. For example, `./listPrimes 1 700000 9 10` is accepted but `./listPrimes 1 1100000 9 10` is not.
