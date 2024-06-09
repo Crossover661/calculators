@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector> // vector
 #include <cstdint> // uint64_t
+#include <cerrno> // errno
 #include <utility> // pair
 using namespace std;
 
