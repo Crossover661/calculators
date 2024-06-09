@@ -69,15 +69,17 @@ int main(int argc, char *argv[]) {
         if (!isPositiveInteger(argv[i])) {cout << "Input must be a positive integer.";}
         else if (errno == ERANGE) {cout << "Input is too large. Maximum value allowed is 2^64-1 = 18446744073709551615.";}
         else if (num <= 1) {cout << num << " is neither prime nor composite.";}
-        else if (lowestFactor(num) == num) {cout << num << " is prime.";}
         else {
-            cout << num << " is composite. " << num << " = ";
             vector<uiPair> factors = factorization(num);
-            if (factors[0].second == 1) {cout << factors[0].first;}
-            else {cout << factors[0].first << "^" << factors[0].second;}
-            for (unsigned int j=1; j<factors.size(); j++) {
-                if (factors[j].second == 1) {cout << " * " << factors[j].first;}
-                else {cout << " * " << factors[j].first << "^" << factors[j].second;}
+            if (factors[0].first == num) {cout << num << " is prime.";}
+            else {
+                cout << num << " is composite. " << num << " = ";
+                if (factors[0].second == 1) {cout << factors[0].first;}
+                else {cout << factors[0].first << "^" << factors[0].second;}
+                for (unsigned int j=1; j<factors.size(); j++) {
+                    if (factors[j].second == 1) {cout << " * " << factors[j].first;}
+                    else {cout << " * " << factors[j].first << "^" << factors[j].second;}
+                }
             }
         }
         cout << endl;
