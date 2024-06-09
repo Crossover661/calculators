@@ -37,21 +37,23 @@ int main(int argc, char *argv[]) {
     errno = 0;
     unsigned int lowerBound = stoul(argv[1]);
     unsigned int upperBound = stoul(argv[2]);
-    unsigned int remainder = 0, modulus = 0;
+    unsigned int remainder = 0, modulus = 1;
     if (argc == 5) {
         if (!isPositiveInteger(argv[3]) || !isPositiveInteger(argv[4])) {
             cout << "Remainder and modulus must be positive integers." << endl;
             return 1;
         }
         modulus = stoul(argv[4]);
-        remainder = stoul(argv[3]) % modulus;
+        if (modulus == 0) {modulus = 1;}
+        remainder = stoul(argv[3]);
     }
     if (lowerBound > upperBound) {
         cout << "Upper bound must be greater than or equal to lower bound." << endl;
         return 1;
     }
-    if (upperBound - lowerBound > 100000) {
-        cout << "Range must be less than or equal to 100000" << endl;
+    if ((upperBound - lowerBound)/modulus > 100000) {
+        if (argc == 3) {cout << "Range included must be less than or equal to 100000" << endl;}
+        else {cout << "Range included must be less than or equal to 100000*modulus" << endl;}
         return 1;
     }
     vector<unsigned int> primes;
