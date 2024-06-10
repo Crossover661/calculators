@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
     for (unsigned int i = lowerBound; i <= upperBound; i+=modulus) {
         if (isPrime(i)) {primes.push_back(i);}
     }
-    cout << "nber of primes: " << primes.size() << endl;
+    cout << "Number of primes: " << primes.size() << endl;
     string curLine = "";
     vector<string> lines;
     for (unsigned int i : primes) {
