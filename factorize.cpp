@@ -14,46 +14,46 @@ bool isPositiveInteger(char *str) {
     return true;
 }
 
-uint64_t intSqrt(uint64_t num) {
-    // Returns the square root of num, rounded down.
-    if (num <= 1) {return num;}
-    uint64_t x = num;
+uint64_t intSqrt(uint64_t n) {
+    // Returns the square root of n, rounded down.
+    if (n <= 1) {return n;}
+    uint64_t x = n;
     uint64_t y = (x - 1)/2 + 1;
     while (x > y) {
         x = y;
-        y = (x + num/x)/2;
+        y = (x + n/x)/2;
     }
     return x;
 }
 
-uint64_t lowestFactor(uint64_t num) {
-    // Calculates the lowest prime factor of num.
-    if (num % 2 == 0) {return 2;}
-    if (num % 3 == 0) {return 3;}
-    if (num % 5 == 0) {return 5;}
-    uint64_t squareRoot = intSqrt(num);
+uint64_t lowestFactor(uint64_t n) {
+    // Calculates the lowest prime factor of n.
+    if (n % 2 == 0) {return 2;}
+    if (n % 3 == 0) {return 3;}
+    if (n % 5 == 0) {return 5;}
+    uint64_t squareRoot = intSqrt(n);
     for (uint64_t i = 7; i <= squareRoot; i += 30) {
         // eliminates multiples of 2, 3, and 5
-        if (num % i == 0) {return i;}
-        if (num % (i+4) == 0) {return i+4;}
-        if (num % (i+6) == 0) {return i+6;}
-        if (num % (i+10) == 0) {return i+10;}
-        if (num % (i+12) == 0) {return i+12;}
-        if (num % (i+16) == 0) {return i+16;}
-        if (num % (i+22) == 0) {return i+22;}
-        if (num % (i+24) == 0) {return i+24;}
+        if (n % i == 0) {return i;}
+        if (n % (i+4) == 0) {return i+4;}
+        if (n % (i+6) == 0) {return i+6;}
+        if (n % (i+10) == 0) {return i+10;}
+        if (n % (i+12) == 0) {return i+12;}
+        if (n % (i+16) == 0) {return i+16;}
+        if (n % (i+22) == 0) {return i+22;}
+        if (n % (i+24) == 0) {return i+24;}
     }
-    return num;
+    return n;
 }
 
-vector<uiPair> factorization(uint64_t num) {
-    // Returns the full prime factorization of num, in exponential form. Ex: 2024 -> {{2,3},{11,1},{23,1}} -> 2^3 * 11 * 23
+vector<uiPair> factorization(uint64_t n) {
+    // Returns the full prime factorization of n, in exponential form. Ex: 2024 -> {{2,3},{11,1},{23,1}} -> 2^3 * 11 * 23
     vector<uiPair> factors;
-    while (num > 1) {
-        uint64_t curFactor = lowestFactor(num);
+    while (n > 1) {
+        uint64_t curFactor = lowestFactor(n);
         if (factors.empty() || factors.back().first != curFactor) {factors.push_back({curFactor, 1});}
         else {(factors.back().second)++;}
-        num /= curFactor;
+        n /= curFactor;
     }
     return factors;
 }
@@ -66,15 +66,15 @@ int main(int argc, char *argv[]) {
     for (int i=1; i<argc; i++) {
         char *end;
         errno = 0;
-        uint64_t num = strtoull(argv[i], &end, 10);
+        uint64_t n = strtoull(argv[i], &end, 10);
         if (!isPositiveInteger(argv[i])) {cout << "Input must be a positive integer.";}
         else if (errno == ERANGE) {cout << "Input is too large. Maximum value allowed is 2^64-1 = 18446744073709551615.";}
-        else if (num <= 1) {cout << num << " is neither prime nor composite.";}
+        else if (n <= 1) {cout << n << " is neither prime nor composite.";}
         else {
-            vector<uiPair> factors = factorization(num);
-            if (factors[0].first == num) {cout << num << " is prime.";}
+            vector<uiPair> factors = factorization(n);
+            if (factors[0].first == n) {cout << n << " is prime.";}
             else {
-                cout << num << " is composite. " << num << " = ";
+                cout << n << " is composite. " << n << " = ";
                 if (factors[0].second == 1) {cout << factors[0].first;}
                 else {cout << factors[0].first << "^" << factors[0].second;}
                 for (unsigned int j=1; j<factors.size(); j++) {
