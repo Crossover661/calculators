@@ -1,8 +1,10 @@
 #include <iostream>
-#include <vector> // vector
-#include <cstdint> // uint64_t
-#include <cerrno> // errno
+#include <vector>
 #include <utility> // pair
+#include <cstdint> // uint64_t
+#include <cstdlib> // strtoull
+#include <cerrno> // errno
+#include <cctype> // isdigit
 using namespace std;
 
 typedef pair<uint64_t, unsigned int> uiPair;
