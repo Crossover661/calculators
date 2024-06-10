@@ -7,15 +7,15 @@ using namespace std;
 
 typedef pair<uint64_t, unsigned int> uiPair;
 
+/* Detects whether all characters in the string are numeric. Strings corresponding to negative
+numbers, scientific notation, and integers written as decimals (such as "3.0") all return false. */
 bool isPositiveInteger(char *str) {
-    /* Detects whether all characters in the string are numeric. Strings corresponding to negative
-    numbers, scientific notation, and integers written as decimals (such as "3.0") all return false. */
     for (int i = 0; str[i] != '\0'; i++) {if (!isdigit(str[i])) {return false;}}
     return true;
 }
 
+// Returns the square root of n, rounded down.
 uint64_t intSqrt(uint64_t n) {
-    // Returns the square root of n, rounded down.
     if (n <= 1) {return n;}
     uint64_t x = n;
     uint64_t y = (x - 1)/2 + 1;
@@ -26,14 +26,13 @@ uint64_t intSqrt(uint64_t n) {
     return x;
 }
 
+// Returns the lowest prime factor of n.
 uint64_t lowestFactor(uint64_t n) {
-    // Calculates the lowest prime factor of n.
     if (n % 2 == 0) {return 2;}
     if (n % 3 == 0) {return 3;}
     if (n % 5 == 0) {return 5;}
     uint64_t squareRoot = intSqrt(n);
     for (uint64_t i = 7; i <= squareRoot; i += 30) {
-        // eliminates multiples of 2, 3, and 5
         if (n % i == 0) {return i;}
         if (n % (i+4) == 0) {return i+4;}
         if (n % (i+6) == 0) {return i+6;}
@@ -46,8 +45,8 @@ uint64_t lowestFactor(uint64_t n) {
     return n;
 }
 
+// Returns the full prime factorization of n, in exponential form. Ex: 2024 -> {{2,3},{11,1},{23,1}} -> 2^3 * 11 * 23
 vector<uiPair> factorization(uint64_t n) {
-    // Returns the full prime factorization of n, in exponential form. Ex: 2024 -> {{2,3},{11,1},{23,1}} -> 2^3 * 11 * 23
     vector<uiPair> factors;
     while (n > 1) {
         uint64_t curFactor = lowestFactor(n);

@@ -5,20 +5,18 @@
 using namespace std;
 
 bool isPositiveInteger(char *str) {
-    /* Detects whether all characters in the string are numeric. Strings corresponding to negative
-    numbers, scientific notation, and integers written as decimals (such as "3.0") all return false. */
     for (int i = 0; str[i] != '\0'; i++) {if (!isdigit(str[i])) {return false;}}
     return true;
 }
 
-bool isPrime(unsigned int num) {
-    // Returns "true" is num is prime and "false" if it is not.
-    if (num <= 1) {return false;}
-    if (num == 2 || num == 3) {return true;}
-    if (num % 2 == 0 || num % 3 == 0) {return false;}
-    unsigned int squareRoot = sqrt(num);
+// Returns true if n is prime and false if it is not.
+bool isPrime(unsigned int n) {
+    if (n <= 1) {return false;}
+    if (n == 2 || n == 3) {return true;}
+    if (n % 2 == 0 || n % 3 == 0) {return false;}
+    unsigned int squareRoot = sqrt(n);
     for (unsigned int i = 5; i <= squareRoot; i+=6) {
-        if ((num % i == 0) || (num % (i+2) == 0)) {return false;}
+        if ((n % i == 0) || (n % (i+2) == 0)) {return false;}
     }
     return true;
 }
@@ -65,7 +63,7 @@ int main(int argc, char *argv[]) {
     for (unsigned int i = lowerBound; i <= upperBound; i+=modulus) {
         if (isPrime(i)) {primes.push_back(i);}
     }
-    cout << "Number of primes: " << primes.size() << endl;
+    cout << "nber of primes: " << primes.size() << endl;
     string curLine = "";
     vector<string> lines;
     for (unsigned int i : primes) {
