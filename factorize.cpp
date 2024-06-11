@@ -12,7 +12,7 @@ typedef std::pair<uint64_t, unsigned int> uiPair;
 /* Detects whether all characters in the string are numeric. Strings corresponding to negative
 numbers, scientific notation, and integers written as decimals (such as "3.0") all return false. */
 bool isPositiveInteger(char *str) {
-    for (int i = 0; str[i] != '\0'; i++) {if (!isdigit(str[i])) {return false;}}
+    for (int i = 0; str[i] != '\0'; i++) {if (!std::isdigit(str[i])) {return false;}}
     return true;
 }
 
@@ -67,7 +67,7 @@ int main(int argc, char *argv[]) {
     for (int i=1; i<argc; i++) {
         char *end;
         errno = 0;
-        uint64_t n = strtoull(argv[i], &end, 10);
+        uint64_t n = std::strtoull(argv[i], &end, 10);
         if (!isPositiveInteger(argv[i])) {cout << "Input must be a positive integer.";}
         else if (errno == ERANGE) {cout << "Input is too large. Maximum value allowed is 2^64-1 = 18446744073709551615.";}
         else if (n <= 1) {cout << n << " is neither prime nor composite.";}
