@@ -59,7 +59,8 @@ bool mr(uint64_t n, uint64_t b) {
     return y == 1;
 }
 
-// Calculates whether n is prime, using the Miller-Rabin test on various prime bases
+/* Calculates whether n is prime, using the Miller-Rabin test on various prime bases. For positive integers
+less than 2^64, the test is deterministic when combining all prime bases from 2 through 37. */
 bool isPrime(uint64_t n) {
     if (n <= 5) {return (n == 2 || n == 3 || n == 5);}
     if (n % 2 == 0 || n % 3 == 0 || n % 5 == 0) {return false;}
