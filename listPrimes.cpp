@@ -82,6 +82,7 @@ int main(int argc, char *argv[]) {
         cout << "Lower and upper bounds must be positive integers." << endl;
         return 1;
     }
+
     uint64_t lowerBound = 0, upperBound = 0, remainder = 0, modulus = 1;
     char* end;
     errno = 0;
@@ -92,6 +93,7 @@ int main(int argc, char *argv[]) {
         cout << "Lower and upper bounds must be at most 2^64-1 = 18446744073709551615." << endl;
         return 1;
     }
+
     if (argc == 5) {
         if (!isPositiveInteger(argv[1]) || !isPositiveInteger(argv[2])) {
             cout << "Remainder and modulus must be non-negative integers." << endl;
@@ -107,12 +109,14 @@ int main(int argc, char *argv[]) {
         }
         remainder %= modulus;
     }
+
     if ((upperBound - lowerBound) / modulus > 10000000) {
         if (argc == 3) {cout << "Range of numbers must be at most 10000000." << endl;}
         else {cout << "Range of numbers satisfying modular congruence must be at most 10000000." << endl;}
         return 1;
     }
     if (upperBound == uint64_t(0xFFFFFFFFFFFFFFFF)) {upperBound = 0xFFFFFFFFFFFFFFFE;}
+
     vector<uint64_t> primes;
     for (uint64_t i = lowerBound; i <= upperBound; i++) {
         if (i % modulus == remainder && isPrime(i)) {primes.push_back(i);}
