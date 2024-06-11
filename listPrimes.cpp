@@ -1,32 +1,32 @@
 #include <iostream>
 #include <vector>
+#include <string>
 #include <cstdint> // uint64_t
 #include <cstdlib> // strtoull
-using std::cout, std::endl, std::vector, std::uint64_t;
+using std::cout, std::endl, std::vector, std::string, std::uint64_t, std::strtoull;
 
 bool isPositiveInteger(char *str) {
-    for (int i = 0; str[i] != '\0'; i++) {if (!isdigit(str[i])) {return false;}}
+    for (int i = 0; str[i] != '\0'; i++) {if (!std::isdigit(str[i])) {return false;}}
     return true;
 }
 
-/* Modular "multiplication by doubling", in the same manner as "exponentiation by squaring".
-This prevents overflow with inputs above 2^32, however may still overflow if one input
-is greater than or equal to 2^63. */
-uint64_t modMul(uint64_t x, uint64_t y, uint64_t modulus) {
-    if (x <= uint64_t(0xFFFFFFFF) && y <= uint64_t(0xFFFFFFFF)) {return (x * y) % modulus;}
-    uint64_t result = 0;
-    x %= modulus;
-    while (y > 0) {
-        if (y % 2 != 0) {result = (result + x) % modulus;}
-        x = (x * 2) % modulus;
-        y /= 2;
-    }
-    return result;
+// Implements modular addition without overflow.
+uint64_t modAdd(uint64_t x, uint64_t y, uint64_t modulus) {
+    if (y < modulus - x) {return x + y;}
+    else {return y - (modulus - x);} // ex. (65 + 57) % 100 = 57 - (100 - 65) = 57 - 35 = 22
 }
 
-// Modular multiplication of three integers.
-uint64_t modMul(uint64_t x, uint64_t y, uint64_t z, uint64_t modulus) {
-    return modMul(modMul(x, y, modulus), z, modulus);
+// Implements modular multiplication by doubling to prevent overflow. Helper function for modExp().
+uint64_t modMul(uint64_t x, uint64_t y, uint64_t modulus) {
+    if (x <= 0xFFFFFFFF && y <= 0xFFFFFFFF) {return (x * y) % modulus;}
+    uint64_t result = 0;
+    for (int i = 63; i >= 0; i--) {
+        uint64_t mask = uint64_t(1) << i;
+        bool bit = (y & mask) != 0;
+        if (bit) {result = modAdd(modAdd(result, result, modulus), x, modulus);}
+        else {result = modAdd(result, result, modulus);}
+    }
+    return result;
 }
 
 // Performs modular exponentiation. Ex: modExp(2,91,1000) = 2^91 mod 1000 = 448
@@ -37,7 +37,7 @@ uint64_t modExp(uint64_t base, uint64_t exp, uint64_t modulus) {
     for (int i = 63; i >= 0; i--) {
         uint64_t mask = uint64_t(1) << i;
         bool bit = (exp & mask) != 0;
-        if (bit) {result = modMul(result, result, base, modulus);}
+        if (bit) {result = modMul(modMul(result, result, modulus), base, modulus);}
         else {result = modMul(result, result, modulus);}
     }
     return result;
@@ -61,8 +61,8 @@ bool mr(uint64_t n, uint64_t b) {
 
 // Calculates whether n is prime, using the Miller-Rabin test on various prime bases
 bool isPrime(uint64_t n) {
-    if (n <= 3) {return n >= 2;}
-    if (n % 2 == 0 || n % 3 == 0) {return false;}
+    if (n <= 5) {return (n == 2 || n == 3 || n == 5);}
+    if (n % 2 == 0 || n % 3 == 0 || n % 5 == 0) {return false;}
     if (n < 2047) {return mr(n,2);}
     if (n < 1373653) {return mr(n,2) && mr(n,3);}
     if (n < 25326001) {return mr(n,2) && mr(n,3) && mr(n,5);}
@@ -77,20 +77,67 @@ int main(int argc, char *argv[]) {
         cout << "./listPrimes <lowerBound> <upperBound> <remainder> <modulus>" << endl;
         return 1;
     }
+    if (!isPositiveInteger(argv[1]) || !isPositiveInteger(argv[2])) {
+        cout << "Lower and upper bounds must be positive integers." << endl;
+        return 1;
+    }
+    
     uint64_t lowerBound = 0, upperBound = 0, remainder = 0, modulus = 1;
     char* end;
+    errno = 0;
     lowerBound = strtoull(argv[1], &end, 10);
     char* end1;
     upperBound = strtoull(argv[2], &end1, 10);
+    if (errno == ERANGE) {
+        cout << "Lower and upper bounds must be at most 2^64-1 = 18446744073709551615." << endl;
+        return 1;
+    }
+
     if (argc == 5) {
+        if (!isPositiveInteger(argv[1]) || !isPositiveInteger(argv[2])) {
+            cout << "Remainder and modulus must be non-negative integers." << endl;
+            return 1;
+        }
         char* end2;
         remainder = strtoull(argv[3], &end2, 10);
         char* end3;
         modulus = strtoull(argv[4], &end3, 10);
-        if (modulus == 0) {modulus = 1;}
+        if (modulus == 0) {
+            cout << "Modulus must be greater than or equal to 1." << endl;
+            return 1;
+        }
         remainder %= modulus;
     }
-    // TODO: Complete function
-    cout << lowerBound << " " << upperBound << endl;
+    if ((upperBound - lowerBound) / modulus > 10000000) {
+        if (argc == 3) {cout << "Range of numbers must be at most 10000000." << endl;}
+        else {cout << "Range of numbers satisfying modular congruence must be at most 10000000." << endl;}
+        return 1;
+    }
+    if (upperBound == uint64_t(0xFFFFFFFFFFFFFFFF)) {upperBound = 0xFFFFFFFFFFFFFFFE;}
+    vector<uint64_t> primes;
+    for (uint64_t i = lowerBound; i <= upperBound; i++) {
+        if (i % modulus == remainder && isPrime(i)) {primes.push_back(i);}
+    }
+    cout << "Number of primes: " << primes.size() << endl;
+
+    if (primes.size() <= 10000) {
+        string curLine = "";
+        for (uint64_t n : primes) {
+            curLine += (std::to_string(n) + " ");
+            if (curLine.size() >= 100) {
+                cout << curLine << endl;
+                curLine = "";
+            }
+        }
+        if (curLine.size() >= 1) {cout << curLine << endl;}
+    }
+    else {
+        cout << "5 smallest primes: ";
+        for (unsigned int i=0; i<5; i++) {cout << primes[i] << " ";}
+        cout << endl;
+        cout << "5 largest primes: ";
+        for (unsigned int i=primes.size()-5; i<primes.size(); i++) {cout << primes[i] << " ";}
+        cout << endl;
+    }
     return 0;
 }
