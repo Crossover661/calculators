@@ -110,13 +110,15 @@ int main(int argc, char *argv[]) {
         remainder %= modulus;
     }
 
-    if ((upperBound - lowerBound) / modulus > 10000000) {
-        if (argc == 3) {cout << "Range of numbers must be at most 10000000." << endl;}
-        else {cout << "Range of numbers satisfying modular congruence must be at most 10000000." << endl;}
+    if ((upperBound - lowerBound) / modulus > 1000000) {
+        if (argc == 3) {cout << "Range of numbers must be at most 1000000." << endl;}
+        else {cout << "Range of numbers satisfying modular congruence must be at most 1000000." << endl;}
         return 1;
     }
-    if (upperBound == uint64_t(0xFFFFFFFFFFFFFFFF)) {upperBound = 0xFFFFFFFFFFFFFFFE;}
 
+    /* If the upper bound is exactly equal to 2^64-1, the for loop that calculates the primes enters an infinite loop. 
+    Thus, the upper bound is capped at 2^64-2. This does not affect the program's output as 2^64-1 is a composite number. */  
+    if (upperBound == uint64_t(0xFFFFFFFFFFFFFFFF)) {upperBound = 0xFFFFFFFFFFFFFFFE;}
     vector<uint64_t> primes;
     for (uint64_t i = lowerBound; i <= upperBound; i++) {
         if (i % modulus == remainder && isPrime(i)) {primes.push_back(i);}
