@@ -82,7 +82,6 @@ int main(int argc, char *argv[]) {
         cout << "Lower and upper bounds must be positive integers." << endl;
         return 1;
     }
-    
     uint64_t lowerBound = 0, upperBound = 0, remainder = 0, modulus = 1;
     char* end;
     errno = 0;
@@ -93,7 +92,6 @@ int main(int argc, char *argv[]) {
         cout << "Lower and upper bounds must be at most 2^64-1 = 18446744073709551615." << endl;
         return 1;
     }
-
     if (argc == 5) {
         if (!isPositiveInteger(argv[1]) || !isPositiveInteger(argv[2])) {
             cout << "Remainder and modulus must be non-negative integers." << endl;
@@ -120,7 +118,6 @@ int main(int argc, char *argv[]) {
         if (i % modulus == remainder && isPrime(i)) {primes.push_back(i);}
     }
     cout << "Number of primes: " << primes.size() << endl;
-
     if (primes.size() <= 10000) {
         string curLine = "";
         for (uint64_t n : primes) {
