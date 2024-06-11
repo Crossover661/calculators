@@ -5,7 +5,7 @@
 #include <cstdlib> // strtoull
 #include <cerrno> // errno
 #include <cctype> // isdigit
-using namespace std;
+using std::cout, std::endl, std::vector, std::pair, std::uint64_t;
 
 typedef pair<uint64_t, unsigned int> uiPair;
 
