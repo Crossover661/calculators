@@ -5,9 +5,9 @@
 #include <cstdlib> // strtoull
 #include <cerrno> // errno
 #include <cctype> // isdigit
-using std::cout, std::endl, std::vector, std::pair, std::uint64_t;
+using std::cout, std::endl, std::vector, std::uint64_t;
 
-typedef pair<uint64_t, unsigned int> uiPair;
+typedef std::pair<uint64_t, unsigned int> uiPair;
 
 /* Detects whether all characters in the string are numeric. Strings corresponding to negative
 numbers, scientific notation, and integers written as decimals (such as "3.0") all return false. */
