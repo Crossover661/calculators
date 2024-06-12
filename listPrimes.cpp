@@ -136,7 +136,7 @@ int main(int argc, char *argv[]) {
                 curLine = "";
             }
         }
-        if (curLine.size() >= 1) {cout << curLine << endl;}
+        if (!curLine.empty()) {cout << curLine << endl;}
     }
     else {
         cout << "5 smallest primes: ";
