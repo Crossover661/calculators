@@ -93,7 +93,10 @@ int main(int argc, char *argv[]) {
         cout << "Lower and upper bounds must be at most 2^64-1 = 18446744073709551615." << endl;
         return 1;
     }
-
+    if (upperBound < lowerBound) {
+        cout << "Upper bound must be greater than or equal to lower bound." << endl;
+        return 1;
+    }
     if (argc == 5) {
         if (!isPositiveInteger(argv[1]) || !isPositiveInteger(argv[2])) {
             cout << "Remainder and modulus must be non-negative integers." << endl;

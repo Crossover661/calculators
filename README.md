@@ -2,7 +2,6 @@ A repository for calculators in C++.
 
 For the factorize.cpp calculator:
 * Type `./factorize <numbers_to_factorize>` in a command prompt to find the prime factorization(s) of the given number(s).
-  * Examples: If the executable is called factorize.exe:
   * `./factorize 5` prints `5 is prime.`
   * `./factorize 2024` prints `2024 is composite. 2024 = 2^3 * 11 * 23`
   * `./factorize 2 22 2024 11 23` prints the prime factorizations of 2, 22, 2024, 11, and 23, each on its own line.
@@ -12,19 +11,18 @@ For the factorize.cpp calculator:
 
 For the listPrimes.cpp calculator:
 * Type `./listPrimes <lowerBound> <upperBound>` to list all prime numbers between lowerBound and upperBound, inclusive, along with the number of primes between said values.
-* lowerBound and upperBound must be positive integers such that `0 <= lowerBound <= upperBound <= 4294967295` and `upperBound - lowerBound <= 1000000`.
-* Example output:
-  * `./listPrimes 100 200` prints:
-  ```
-  Number of primes: 21
-  101 103 107 109 113 127 131 137 139 149 151 157 163 167 173 179 181 191 193 197 199
-  ```
-* One can also add modular restrictions with the syntax `./listPrimes <lowerBound> <upperBound> <x> <y>`, which lists primes congruent to x modulo y. Example: `./listPrimes 1 1000 9 10` prints prime numbers between 1 and 1000 that end in 9 in base 10.
-  * If modulus is set, then the number of values satisfying the modular congruence between the lower and upper bounds must be less than or equal to 1000000. For example, `./listPrimes 1 7000000 9 10` is accepted but `./listPrimes 1 11000000 9 10` is not.
-* If the number of primes is greater than 100000, the program prints the number of primes, followed by the 5 smallest and largest primes in the range.
-  * Example: `./listPrimes 0 999999 1 8` prints:
+* lowerBound and upperBound must be positive integers at most 2^64-1 = 18446744073709551615, and upperBound must be greater than or equal to lowerBound.
+* Example: `./listPrimes 100 200` prints:
+```
+Number of primes: 21
+101 103 107 109 113 127 131 137 139 149 151 157 163 167 173 179 181 191 193 197 199
+```
+* One can also restrict the list of primes to include only numbers that are congruent to m modulo n, for some positive integers m and n. For example, `./listPrimes 100 999 9 10` prints 3-digit prime numbers that end in 9 in base 10.
+* If the modular restriction is not set, the range of values must be less than or equal to 1000000. If the modular restriction is set, the range of values satisfying the modular congruence must be less than or equal to 1000000.
+* If the number of primes is greater than 10000, then the number of primes is listed, followed by the 5 smallest and largest primes.
+  * Example: `./listPrimes 1 999999 1 8` prints
   ```
   Number of primes: 19552
   5 smallest primes: 17 41 73 89 97 
-  5 largest primes: 999721 999769 999809 999953 999961
+  5 largest primes: 999721 999769 999809 999953 999961 
   ```
