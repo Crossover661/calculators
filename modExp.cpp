@@ -47,7 +47,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
     else if (!isPositiveInteger(argv[1]) || !isPositiveInteger(argv[2]) || !isPositiveInteger(argv[3])) {
-        cout << "All inputs must be positive integers" << endl;
+        cout << "All inputs must be positive integers." << endl;
         return 1;
     }
     else {
