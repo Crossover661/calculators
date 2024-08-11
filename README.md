@@ -26,3 +26,10 @@ Number of primes: 21
   5 smallest primes: 17 41 73 89 97 
   5 largest primes: 999721 999769 999809 999953 999961 
   ```
+
+For the modExp.cpp calculator:
+* This calculator performs modular exponentiation. Given three positive integers a, b, c, it calculates the remainder when a^b is divided by c.
+* Syntax is `./modExp <base> <exponent> <modulus>`.
+* Example: `./modExp 3 11 17` returns `7`, indicating that `3^11 mod 17 = 7`. This is true because 3^11 = 177147 = 10420 * 17 + 7.
+* Another example: `./modExp 2 10657 10000` returns `7872`. Even though the value 2^10657 cannot be directly calculated, as it is much greater than the 64-bit unsigned integer limit, modular arithmetic can be used to find the remainder.
+  * This result shows that the last four digits of 2^10657 is 7872.
