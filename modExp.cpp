@@ -1,5 +1,8 @@
 #include <iostream>
 #include <cstdint> // uint64_t
+#include <cstdlib> // strtoull
+#include <cerrno> // errno
+#include <cctype> // isdigit
 using std::cout, std::endl, std::uint64_t;
 
 bool isPositiveInteger(char *str) {
