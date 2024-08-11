@@ -58,7 +58,11 @@ int main(int argc, char* argv[]) {
         char* endModulus;
         uint64_t modulus = std::strtoull(argv[3], &endModulus, 10);
         if (errno == ERANGE) {
-            cout << "Base, exponent, and modulus must be less than or equal to 2^64-1 = 18446744073709551615.";
+            cout << "Base, exponent, and modulus must be less than or equal to 2^64-1 = 18446744073709551615." << endl;
+            return 1;
+        }
+        if (modulus <= 1) {
+            cout << "Modulus must be greater than or equal to 2." << endl;
             return 1;
         }
         cout << modExp(base, exponent, modulus) << endl;
