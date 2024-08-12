@@ -20,25 +20,24 @@ uint64_t modAdd(uint64_t x, uint64_t y, uint64_t modulus) {
 uint64_t modMul(uint64_t x, uint64_t y, uint64_t modulus) {
     if (x <= 0xFFFFFFFF && y <= 0xFFFFFFFF) {return (x * y) % modulus;}
     uint64_t result = 0;
-    for (int i = 63; i >= 0; i--) {
-        uint64_t mask = uint64_t(1) << i;
-        bool bit = (y & mask) != 0;
-        if (bit) {result = modAdd(modAdd(result, result, modulus), x, modulus);}
-        else {result = modAdd(result, result, modulus);}
+    while (y != 0) {
+        if (y % 2 != 0) {result = modAdd(result, x, modulus);}
+        x = modAdd(x, x, modulus);
+        y >>= 1;
     }
     return result;
 }
 
-// Performs modular exponentiation. Ex: modExp(2,91,1000) = 2^91 mod 1000 = 448
+// Performs modular exponentiation by squaring. Ex: modExp(2,91,1000) = 2^91 mod 1000 = 448
 uint64_t modExp(uint64_t base, uint64_t exp, uint64_t modulus) {
+    base %= modulus;
     if (modulus <= 1) {return 0;}
     if (base == 1 || exp == 0) {return 1;}
     uint64_t result = 1;
-    for (int i = 63; i >= 0; i--) {
-        uint64_t mask = uint64_t(1) << i;
-        bool bit = (exp & mask) != 0;
-        if (bit) {result = modMul(modMul(result, result, modulus), base, modulus);}
-        else {result = modMul(result, result, modulus);}
+    while (exp != 0) {
+        if (exp % 2 != 0) {result = modMul(result, base, modulus);}
+        base = modMul(base, base, modulus);
+        exp >>= 1;
     }
     return result;
 }
