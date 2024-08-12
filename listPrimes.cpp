@@ -30,9 +30,8 @@ uint64_t modMul(uint64_t x, uint64_t y, uint64_t modulus) {
 
 // Performs modular exponentiation by squaring. Ex: modExp(2,91,1000) = 2^91 mod 1000 = 448
 uint64_t modExp(uint64_t base, uint64_t exp, uint64_t modulus) {
-    base %= modulus;
     if (modulus <= 1) {return 0;}
-    if (base == 1 || exp == 0) {return 1;}
+    base %= modulus;
     uint64_t result = 1;
     while (exp != 0) {
         if (exp % 2 != 0) {result = modMul(result, base, modulus);}
