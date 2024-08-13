@@ -3,6 +3,8 @@
 #include <string>
 #include <cstdint> // uint64_t
 #include <cstdlib> // strtoull
+#include <cerrno> // errno
+#include <cctype> // isdigit
 using std::cout, std::endl, std::vector, std::string, std::uint64_t, std::strtoull;
 
 bool isPositiveInteger(char *str) {
