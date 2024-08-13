@@ -166,6 +166,10 @@ int main(int argc, char *argv[]) {
             cout << "Modulus must be greater than 1." << endl;
             return 1;
         }
+        if (errno == ERANGE) {
+            cout << "Remainder and modulus must be less than or equal to 2^64-1 = 18446744073709551615." << endl;
+            return 1;
+        }
         vector<uuPair> factors = factorization(modulus);
         if (isResidue(remainder, factors)) {cout << remainder << " is a quadratic residue modulo " << modulus << "." << endl;}
         else {cout << remainder << " is NOT a quadratic residue modulo " << modulus << "." << endl;}
