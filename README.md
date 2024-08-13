@@ -33,3 +33,4 @@ For quadraticResidue.cpp:
   * `./quadraticResidue 222`: Lists all quadratic residues modulo 222.
   * `./quadraticResidue 2 7` prints `2 is a quadratic residue modulo 7.`
   * `./quadraticResidue 3 7` prints `3 is NOT a quadratic residue modulo 7.`
+* Both the remainder and modulus must be positive integers kess than or equal to 2^64-1.
