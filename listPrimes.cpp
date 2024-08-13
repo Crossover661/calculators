@@ -127,16 +127,15 @@ int main(int argc, char *argv[]) {
     cout << "Number of primes: " << primes.size() << endl;
     if (primes.size() <= 10000) {
         string curString = "";
-        vector<string> primeStrings;
+        //vector<string> primeStrings;
         for (uint64_t p : primes) {
             curString += std::to_string(p) + " ";
             if (curString.size() >= 100) {
-                primeStrings.push_back(curString);
+                cout << curString << endl;
                 curString = "";
             }
         }
-        if (curString.size() != 0) {primeStrings.push_back(curString);}
-        for (string line : primeStrings) {cout << line << endl;}
+        if (curString.size() != 0) {cout << curString << endl;}
     }
     else {
         cout << "5 smallest primes: ";
