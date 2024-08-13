@@ -21,7 +21,7 @@ uint64_t lowestFactor(uint64_t n) {
     if (n % 3 == 0) {return 3;}
     if (n % 5 == 0) {return 5;}
     uint64_t x = n, y = (x - 1)/2 + 1;
-    while (x > y) { // at end of loop, x = floor(sqrt(n)) assuming n >= 2
+    while (x > y) { // at end of loop, x = floor(sqrt(n))
         x = y;
         y = (x + n/x)/2;
     }
