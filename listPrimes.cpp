@@ -46,7 +46,10 @@ bool mr(uint64_t n, uint64_t b) {
     if (n <= b + 1) {return true;}
     uint64_t n2 = n - 1;
     int s = 0;
-    while (n2 % 2 == 0) {n2 /= 2; s++;}
+    while (n2 % 2 == 0) {
+        n2 >>= 1; 
+        s++;
+    }
     uint64_t x = modExp(b, n2, n);
     uint64_t y;
     for (int i=0; i<s; i++) {
@@ -60,9 +63,8 @@ bool mr(uint64_t n, uint64_t b) {
 /* Calculates whether n is prime, using the Miller-Rabin test on various prime bases. For positive integers
 less than 2^64, the test is deterministic when combining all prime bases from 2 through 37. */
 bool isPrime(uint64_t n) {
-    if (n <= 5) {return (n == 2 || n == 3 || n == 5);}
-    if (n % 2 == 0 || n % 3 == 0 || n % 5 == 0) {return false;}
-    if (n < 2047) {return mr(n,2);}
+    if (n % 2 == 0) {return n == 2;} // 2 is the only even prime number
+    if (n < 2047) {return n != 1 && mr(n,2);}
     if (n < 1373653) {return mr(n,2) && mr(n,3);}
     if (n < 25326001) {return mr(n,2) && mr(n,3) && mr(n,5);}
     return (mr(n,2) && mr(n,3) && mr(n,5) && mr(n,7) && mr(n,11) && mr(n,13) && mr(n,17)
@@ -81,67 +83,65 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    uint64_t lowerBound = 0, upperBound = 0, remainder = 0, modulus = 1;
+    uint64_t lower = 1, upper = 1, remainder = 0, modulus = 1;
     char* end;
     errno = 0;
-    lowerBound = strtoull(argv[1], &end, 10);
+    lower = strtoull(argv[1], &end, 10);
     char* end1;
-    upperBound = strtoull(argv[2], &end1, 10);
-    if (errno == ERANGE) {
-        cout << "Lower and upper bounds must be at most 2^64-1 = 18446744073709551615." << endl;
-        return 1;
-    }
-    if (upperBound < lowerBound) {
-        cout << "Upper bound must be greater than or equal to lower bound." << endl;
-        return 1;
-    }
+    upper = strtoull(argv[2], &end1, 10);
     if (argc == 5) {
-        if (!isPositiveInteger(argv[1]) || !isPositiveInteger(argv[2])) {
-            cout << "Remainder and modulus must be non-negative integers." << endl;
-            return 1;
-        }
         char* end2;
         remainder = strtoull(argv[3], &end2, 10);
         char* end3;
         modulus = strtoull(argv[4], &end3, 10);
-        if (modulus == 0) {
-            cout << "Modulus must be greater than or equal to 1." << endl;
-            return 1;
-        }
-        remainder %= modulus;
     }
-
-    if ((upperBound - lowerBound) / modulus > 1000000) {
-        if (argc == 3) {cout << "Range of numbers must be at most 1000000." << endl;}
-        else {cout << "Range of numbers satisfying modular congruence must be at most 1000000." << endl;}
+    if (lower == 0) {lower = 1;}
+    if (upper == 0) {upper = 1;}
+    if (modulus == 0) {modulus = 1;}
+    if (lower > upper) {
+        cout << "Upper bound must be greater than or equal to lower bound." << endl;
+        return 1;
+    }
+    if (errno == ERANGE) {
+        cout << "All input values must be less than or equal to 2^64-1 = 18446744073709551615." << endl;
         return 1;
     }
 
-    /* If the upper bound is exactly equal to 2^64-1, the for loop that calculates the primes enters an infinite loop. 
-    Thus, the upper bound is capped at 2^64-2. This does not affect the program's output as 2^64-1 is a composite number. */  
-    if (upperBound == uint64_t(0xFFFFFFFFFFFFFFFF)) {upperBound = 0xFFFFFFFFFFFFFFFE;}
-    vector<uint64_t> primes;
-    for (uint64_t i = lowerBound; i <= upperBound; i++) {
-        if (i % modulus == remainder && isPrime(i)) {primes.push_back(i);}
+    remainder %= modulus;
+    lower += modAdd(remainder, (modulus - lower) % modulus, modulus);
+    upper -= modAdd(upper % modulus, (modulus - remainder) % modulus, modulus);
+    uint64_t numSteps = (upper - lower) / modulus;
+    if (numSteps > 1000000) {
+        cout << "Range of values cannot exceed 1000000." << endl;
+        return 1;
     }
+    uint64_t n = lower;
+    vector<uint64_t> primes;
+    for (uint64_t i = 0; i <= numSteps; i++) {
+        if (isPrime(n)) {primes.push_back(n);}
+        n += modulus;
+    }
+
     cout << "Number of primes: " << primes.size() << endl;
     if (primes.size() <= 10000) {
-        string curLine = "";
-        for (uint64_t n : primes) {
-            curLine += (std::to_string(n) + " ");
-            if (curLine.size() >= 100) {
-                cout << curLine << endl;
-                curLine = "";
+        string curString = "";
+        vector<string> primeStrings;
+        for (uint64_t p : primes) {
+            curString += std::to_string(p) + " ";
+            if (curString.size() >= 100) {
+                primeStrings.push_back(curString);
+                curString = "";
             }
         }
-        if (!curLine.empty()) {cout << curLine << endl;}
+        if (curString.size() != 0) {primeStrings.push_back(curString);}
+        for (string line : primeStrings) {cout << line << endl;}
     }
     else {
         cout << "5 smallest primes: ";
-        for (unsigned int i=0; i<5; i++) {cout << primes[i] << " ";}
+        for (unsigned int i = 0; i < 5; i++) {cout << primes[i] << " ";}
         cout << endl;
         cout << "5 largest primes: ";
-        for (unsigned int i=primes.size()-5; i<primes.size(); i++) {cout << primes[i] << " ";}
+        for (unsigned int i = primes.size() - 1; i >= primes.size() - 5; i--) {cout << primes[i] << " ";}
         cout << endl;
     }
     return 0;
