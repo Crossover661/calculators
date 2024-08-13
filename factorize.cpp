@@ -15,24 +15,17 @@ bool isPositiveInteger(char *str) {
     return true;
 }
 
-// Returns the square root of n, rounded down.
-uint64_t intSqrt(uint64_t n) {
-    if (n <= 1) {return n;}
-    uint64_t x = n, y = (x - 1)/2 + 1;
-    while (x > y) {
-        x = y;
-        y = (x + n/x)/2;
-    }
-    return x;
-}
-
 // Returns the lowest prime factor of n.
 uint64_t lowestFactor(uint64_t n) {
     if (n % 2 == 0) {return 2;}
     if (n % 3 == 0) {return 3;}
     if (n % 5 == 0) {return 5;}
-    uint64_t squareRoot = intSqrt(n);
-    for (uint64_t i = 7; i <= squareRoot; i += 30) {
+    uint64_t x = n, y = (x - 1)/2 + 1;
+    while (x > y) { // at end of loop, x = floor(sqrt(n)) assuming n >= 2
+        x = y;
+        y = (x + n/x)/2;
+    }
+    for (uint64_t i = 7; i <= x; i += 30) {
         if (n % i == 0) {return i;}
         if (n % (i+4) == 0) {return i+4;}
         if (n % (i+6) == 0) {return i+6;}
