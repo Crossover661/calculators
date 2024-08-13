@@ -26,3 +26,10 @@ For the modExp.cpp calculator:
 * Another example: `./modExp 2 10657 10000` returns `7872`.
   * This result shows that the last four digits of 2^10657 is 7872. Even though the value 2^10657 cannot be calculated directly in C++, as it is far greater than the unsigned 64-bit integer limit of 2^64-1, modular arithmetic can be used to compute the last few digits of the number.
 * For modExp.cpp, the base and exponent must be between 0 and 2^64-1, and the modulus must be between 1 and 2^64-1, inclusive.
+
+For quadraticResidue.cpp:
+* This calculator can determine the quadratic residues modulo a given positive integer n, and whether a non-negative integer m is a residue modulo n. An integer m is a quadratic residue modulo n if there is an integer a such that a^2 == m (mod n). For example, 89 is a quadratic residue modulo 100, because 17^2 == 89 (mod 100).
+* Examples:
+  * `./quadraticResidue 222`: Lists all quadratic residues modulo 222.
+  * `./quadraticResidue 2 7` prints `2 is a quadratic residue modulo 7.`
+  * `./quadraticResidue 3 7` prints `3 is NOT a quadratic residue modulo 7.`

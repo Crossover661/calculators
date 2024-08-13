@@ -6,7 +6,6 @@
 #include <cerrno> // errno
 #include <cctype> // isdigit
 using std::cout, std::endl, std::vector, std::uint64_t;
-
 typedef std::pair<uint64_t, unsigned int> uiPair;
 
 /* Detects whether all characters in the string are numeric. Strings corresponding to negative
@@ -19,8 +18,7 @@ bool isPositiveInteger(char *str) {
 // Returns the square root of n, rounded down.
 uint64_t intSqrt(uint64_t n) {
     if (n <= 1) {return n;}
-    uint64_t x = n;
-    uint64_t y = (x - 1)/2 + 1;
+    uint64_t x = n, y = (x - 1)/2 + 1;
     while (x > y) {
         x = y;
         y = (x + n/x)/2;
