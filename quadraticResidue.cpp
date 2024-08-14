@@ -71,7 +71,7 @@ bool isResidueP(uint64_t n, uint64_t p, uint64_t e) {
         n /= (p * p);
         e -= 2;
     }
-    if (n == 0 || n == 1 || p == 1 || e == 0) {return true;} // if n == 1 or p^e == 1
+    if (n == 0 || n == 1 || p == 1 || e == 0) {return true;} // if n == 0, n == 1 or p^e == 1
     if (p == 2) {
         if (e == 1) {return true;}
         if (e == 2) {return n % 4 <= 1;} // 0 and 1 are QRs mod 4, 2 and 3 are not.
