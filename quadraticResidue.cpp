@@ -75,7 +75,7 @@ bool isResidueP(uint64_t n, uint64_t p, uint64_t e) {
     if (p == 2) {
         if (e == 1) {return true;}
         if (e == 2) {return n % 4 <= 1;} // 0 and 1 are QRs mod 4, 2 and 3 are not.
-        return n == 0 || n % 8 == 1; // for p == 2 & n >= 3, all QRs are of the form 4^k*(8*n+1) for integers k and n
+        return n % 8 == 1; // for p == 2 & n >= 3, all nonzero QRs are of the form 4^k*(8*n+1) for integers k and n
     }
     if (n % p == 0) {return false;} // if e == 2 and n divisible by p but not p^2 (ex. 15 mod 25, 3 mod 9)
     return legendre(n, p) != -1; // if n is coprime to p and p is odd, n is a residue mod p iff legendre(n, p) != -1
