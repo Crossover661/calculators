@@ -60,7 +60,7 @@ uint64_t pow(uint64_t base, uint64_t exp) {
 // Calculates the Legendre symbol of n modulo a given odd prime modulus p. If this is equal to 0 or 1, n is a quadratic residue modulo p. If it is -1, n is a quadratic nonresidue modulo p.
 int legendre(uint64_t n, uint64_t p) {
     uint64_t legendreSymbol = modExp(n, (p-1)/2, p);
-    if (legendreSymbol <= 1) {return static_cast<int>(legendreSymbol);}
+    if (legendreSymbol <= 1) {return int(legendreSymbol);}
     else {return -1;}
 }
 
