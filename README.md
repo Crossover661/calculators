@@ -1,6 +1,6 @@
 A repository for calculators in C++.
 
-For the factorize.cpp calculator:
+**factorize.cpp**:
 * Type `./factorize <numbers_to_factorize>` in a command prompt to find the prime factorization(s) of the given number(s).
   * `./factorize 5` prints `5 is prime.`
   * `./factorize 2024` prints `2024 is composite. 2024 = 2^3 * 11 * 23`
@@ -9,7 +9,7 @@ For the factorize.cpp calculator:
 * The worst-case time complexity of the calculator is O(√(n)) where n is the number to be factored, or O(10^(d/2)) where d is the number of digits in the number's decimal representation.
   * The numbers that take the longest time to factorize are primes close to the 64-bit limit (such as `18446744073709551557`) and semiprimes with factors close to 2^32 (such as `18446743979220271189` = `4294967279 * 4294967291`). Factorizing such numbers may take several seconds.
 
-For the listPrimes.cpp calculator:
+**listPrimes.cpp**:
 * Type `./listPrimes <lowerBound> <upperBound>` to list all prime numbers between lowerBound and upperBound, inclusive, along with the number of primes between said values.
   * Type `./listPrimes <lowerBound> <upperBound> <remainder> <modulus>` to restrict the list of primes to those congruent to `remainder` modulo `modulus`.
 * lowerBound and upperBound must be positive integers at most 2^64-1 = 18446744073709551615, and upperBound must be greater than or equal to lowerBound.
@@ -19,7 +19,7 @@ For the listPrimes.cpp calculator:
   * If there are more than 10000 primes in the given range, only the 5 smallest and 5 largest primes are printed.
 
 
-For the modExp.cpp calculator:
+**modExp.cpp**:
 * This calculator performs modular exponentiation. Given three positive integers a, b, c, it calculates the remainder when a^b is divided by c.
 * Syntax is `./modExp <base> <exponent> <modulus>`.
 * Example: `./modExp 3 11 17` returns `7`, indicating that `3^11 mod 17 = 7`. This is true because 3^11 = 177147 = 10420 * 17 + 7.
@@ -27,7 +27,7 @@ For the modExp.cpp calculator:
   * This result shows that the last four digits of 2^10657 is 7872. Even though the value 2^10657 cannot be calculated directly in C++, as it is far greater than the unsigned 64-bit integer limit of 2^64-1, modular arithmetic can be used to compute the last few digits of the number.
 * For modExp.cpp, the base and exponent must be between 0 and 2^64-1, and the modulus must be between 1 and 2^64-1, inclusive.
 
-For quadraticResidue.cpp:
+**quadraticResidue.cpp**:
 * This calculator can determine the quadratic residues modulo a given positive integer n, and whether a non-negative integer m is a residue modulo n. An integer m is a quadratic residue modulo n if there is an integer a such that a^2 == m (mod n). For example, 9 is a quadratic residue modulo 10, because 3^2 == 7^2 == 9 (mod 10).
 * Examples:
   * `./quadraticResidue 222`: Lists all quadratic residues modulo 222.
