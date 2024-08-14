@@ -28,7 +28,7 @@ For the modExp.cpp calculator:
 * For modExp.cpp, the base and exponent must be between 0 and 2^64-1, and the modulus must be between 1 and 2^64-1, inclusive.
 
 For quadraticResidue.cpp:
-* This calculator can determine the quadratic residues modulo a given positive integer n, and whether a non-negative integer m is a residue modulo n. An integer m is a quadratic residue modulo n if there is an integer a such that a^2 == m (mod n). For example, 89 is a quadratic residue modulo 100, because 17^2 == 89 (mod 100).
+* This calculator can determine the quadratic residues modulo a given positive integer n, and whether a non-negative integer m is a residue modulo n. An integer m is a quadratic residue modulo n if there is an integer a such that a^2 == m (mod n). For example, 9 is a quadratic residue modulo 10, because 3^2 == 7^2 == 9 (mod 10).
 * Examples:
   * `./quadraticResidue 222`: Lists all quadratic residues modulo 222.
   * `./quadraticResidue 2 7` prints `2 is a quadratic residue modulo 7.`
