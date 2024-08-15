@@ -1,48 +1,21 @@
 #include <iostream>
 #include <cstdint> // uint64_t
-#include <cstdlib> // strtoull
-#include <cerrno> // errno
-#include <cctype> // isdigit
 #include <utility> // pair
 #include <vector> // vector
-#include <string> // string
-using std::cout, std::endl, std::vector, std::uint64_t;
+#include <string> // string, stoull
+#include <stdexcept> // exceptions
+#include "lib/modfuncs.h"
+using std::cout, std::endl, std::vector, std::string, std::uint64_t;
 typedef std::pair<uint64_t, uint64_t> uuPair;
 
-bool isPositiveInteger(char *str) {
-    for (int i = 0; str[i] != '\0'; i++) {if (!std::isdigit(str[i])) {return false;}}
-    return true;
-}
-
-// Implements modular addition without overflow.
-uint64_t modAdd(uint64_t x, uint64_t y, uint64_t modulus) {
-    if (y < modulus - x) {return x + y;}
-    else {return y - (modulus - x);} // ex. (65 + 57) % 100 = 57 - (100 - 65) = 57 - 35 = 22
-}
-
-// Implements modular multiplication by doubling to prevent overflow. Helper function for modExp().
-uint64_t modMul(uint64_t x, uint64_t y, uint64_t modulus) {
-    if (x <= 0xFFFFFFFF && y <= 0xFFFFFFFF) {return (x * y) % modulus;}
-    uint64_t result = 0;
-    while (y != 0) {
-        if (y % 2 != 0) {result = modAdd(result, x, modulus);}
-        x = modAdd(x, x, modulus);
-        y >>= 1;
+uint64_t toU64(string s) {
+    if (s[0] == '-') {throw std::invalid_argument("Input must be a non-negative integer.");}
+    try {
+        uint64_t n = std::stoull(s);
+        return n;
     }
-    return result;
-}
-
-// Performs modular exponentiation by squaring. Ex: modExp(2,91,1000) = 2^91 mod 1000 = 448
-uint64_t modExp(uint64_t base, uint64_t exp, uint64_t modulus) {
-    if (modulus <= 1) {return 0;}
-    base %= modulus;
-    uint64_t result = 1;
-    while (exp != 0) {
-        if (exp % 2 != 0) {result = modMul(result, base, modulus);}
-        base = modMul(base, base, modulus);
-        exp >>= 1;
-    }
-    return result;
+    catch (const std::invalid_argument& e) {throw std::invalid_argument("Input must be a non-negative integer.");}
+    catch (const std::out_of_range& e) {throw std::out_of_range("Input is too large. Maximum value allowed is 2^64-1 = 18446744073709551615.");}
 }
 
 // Raises base to the power of exp.
@@ -126,59 +99,48 @@ vector<uint64_t> residues(uint64_t m, vector<uuPair>& factors) {
 }
 
 int main(int argc, char *argv[]) {
-    if (argc == 2) {
-        if (!isPositiveInteger(argv[1])) {
-            cout << "Modulus must be a positive integer." << endl;
-            return 1;
-        }
-        char* end;
-        errno = 0;
-        uint64_t modulus = std::strtoull(argv[1], &end, 10);
-        if (errno == ERANGE || modulus <= 1 || modulus >= 100000) {
-            cout << "Modulus must be between 2 and 99999" << endl;
-            return 1;
-        }
-        vector<uuPair> factors = factorization(modulus);
-        vector<uint64_t> res = residues(modulus, factors);
-        cout << "Number of residues: " << res.size() << endl;
-        std::string curString = "";
-        for (uint64_t r : res) {
-            curString += std::to_string(r) + " ";
-            if (curString.size() >= 100) {
-                cout << curString << endl;
-                curString = "";
+    try {
+        if (argc == 2) {
+            uint64_t modulus = toU64(string(argv[1]));
+            if (modulus <= 1 || modulus >= 100000) {
+                cout << "Modulus must be between 2 and 99999" << endl;
+                return 1;
             }
+            vector<uuPair> factors = factorization(modulus);
+            vector<uint64_t> res = residues(modulus, factors);
+            cout << "Number of residues: " << res.size() << endl;
+            std::string curString = "";
+            for (uint64_t r : res) {
+                curString += std::to_string(r) + " ";
+                if (curString.size() >= 100) {
+                    cout << curString << endl;
+                    curString = "";
+                }
+            }
+            if (curString.size() != 0) {cout << curString << endl;}
+            return 0;
         }
-        if (curString.size() != 0) {cout << curString << endl;}
-        return 0;
+        else if (argc == 3) {
+            uint64_t remainder = toU64(string(argv[1]));
+            uint64_t modulus = toU64(string(argv[2]));
+            if (modulus <= 1) {
+                cout << "Modulus must be greater than 1." << endl;
+                return 1;
+            }
+            vector<uuPair> factors = factorization(modulus);
+            if (isResidue(remainder, factors)) {cout << remainder << " is a quadratic residue modulo " << modulus << "." << endl;}
+            else {cout << remainder << " is NOT a quadratic residue modulo " << modulus << "." << endl;}
+            return 0;
+        }
+        else {
+            cout << "Input must be of one of the following formats:" << endl;
+            cout << "./quadraticResidue <modulus>" << endl;
+            cout << "./quadraticResidue <remainder> <modulus>" << endl;
+            return 1;
+        }
     }
-    else if (argc == 3) {
-        if (!isPositiveInteger(argv[1]) || !isPositiveInteger(argv[2])) {
-            cout << "Remainder and modulus must be positive integers." << endl;
-            return 1;
-        }
-        char* end;
-        errno = 0;
-        uint64_t remainder = std::strtoull(argv[1], &end, 10);
-        char* end1;
-        uint64_t modulus = std::strtoull(argv[2], &end1, 10);
-        if (modulus == 1) {
-            cout << "Modulus must be greater than 1." << endl;
-            return 1;
-        }
-        if (errno == ERANGE) {
-            cout << "Remainder and modulus must be less than or equal to 2^64-1 = 18446744073709551615." << endl;
-            return 1;
-        }
-        vector<uuPair> factors = factorization(modulus);
-        if (isResidue(remainder, factors)) {cout << remainder << " is a quadratic residue modulo " << modulus << "." << endl;}
-        else {cout << remainder << " is NOT a quadratic residue modulo " << modulus << "." << endl;}
-        return 0;
-    }
-    else {
-        cout << "Input must be of one of the following formats:" << endl;
-        cout << "./quadraticResidue <modulus>" << endl;
-        cout << "./quadraticResidue <remainder> <modulus>" << endl;
+    catch (const std::exception& e) {
+        cout << e.what() << endl;
         return 1;
     }
 }

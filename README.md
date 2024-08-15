@@ -17,7 +17,7 @@ A repository for calculators in C++.
   * `./listPrimes 100 199` prints all prime numbers between 100 and 199, inclusive.
   * `./listPrimes 1000 9999 7 10` prints all 4-digit primes that are congruent to 7 modulo 10 (i.e. primes whose decimal representation ends in 7).
   * If there are more than 10000 primes in the given range, only the 5 smallest and 5 largest primes are printed.
-* This program uses the Miller-Rabin primality test, which quickly determines if an integer is prime or composite without factorizing it.
+* This program uses the Miller-Rabin primality test, which uses modular exponentation to quickly determine the primality of an integer without factorizing it.
 
 
 **modExp.cpp**:

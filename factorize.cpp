@@ -2,18 +2,10 @@
 #include <vector>
 #include <utility> // pair
 #include <cstdint> // uint64_t
-#include <cstdlib> // strtoull
-#include <cerrno> // errno
-#include <cctype> // isdigit
+#include <string> // string, stoull
+#include <stdexcept> // exceptions
 using std::cout, std::endl, std::vector, std::uint64_t;
 typedef std::pair<uint64_t, unsigned int> uiPair;
-
-/* Detects whether all characters in the string are numeric. Strings corresponding to negative
-numbers, scientific notation, and integers written as decimals (such as "3.0") all return false. */
-bool isPositiveInteger(char *str) {
-    for (int i = 0; str[i] != '\0'; i++) {if (!std::isdigit(str[i])) {return false;}}
-    return true;
-}
 
 // Returns the lowest prime factor of n.
 uint64_t lowestFactor(uint64_t n) {
@@ -56,25 +48,26 @@ int main(int argc, char *argv[]) {
         return 1;
     }
     for (int i=1; i<argc; i++) {
-        char *end;
-        errno = 0;
-        uint64_t n = std::strtoull(argv[i], &end, 10);
-        if (!isPositiveInteger(argv[i])) {cout << "Input must be a positive integer.";}
-        else if (errno == ERANGE) {cout << "Input is too large. Maximum value allowed is 2^64-1 = 18446744073709551615.";}
-        else if (n <= 1) {cout << n << " is neither prime nor composite.";}
-        else {
-            vector<uiPair> factors = factorization(n);
-            if (factors[0].first == n) {cout << n << " is prime.";}
+        std::string num = argv[i];
+        try {
+            uint64_t n = std::stoull(num);
+            if (n <= 1 || num[0] == '-') {cout << num << " is neither prime nor composite.";}
             else {
-                cout << n << " is composite. " << n << " = ";
-                if (factors[0].second == 1) {cout << factors[0].first;}
-                else {cout << factors[0].first << "^" << factors[0].second;}
-                for (unsigned int j=1; j<factors.size(); j++) {
-                    if (factors[j].second == 1) {cout << " * " << factors[j].first;}
-                    else {cout << " * " << factors[j].first << "^" << factors[j].second;}
+                vector<uiPair> factors = factorization(n);
+                if (factors[0].first == n) {cout << n << " is prime.";}
+                else {
+                    cout << n << " is composite. " << n << " = ";
+                    if (factors[0].second == 1) {cout << factors[0].first;}
+                    else {cout << factors[0].first << "^" << factors[0].second;}
+                    for (unsigned int j=1; j<factors.size(); j++) {
+                        if (factors[j].second == 1) {cout << " * " << factors[j].first;}
+                        else {cout << " * " << factors[j].first << "^" << factors[j].second;}
+                    }
                 }
             }
         }
+        catch (const std::invalid_argument& e) {cout << "Input must be an integer.";}
+        catch (const std::out_of_range& e) {cout << "Input too large. Maximum input allowed is 2^64-1 = 18446744073709551615.";}
         cout << endl;
     }
     return 0;
