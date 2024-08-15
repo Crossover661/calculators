@@ -62,8 +62,6 @@ int main(int argc, char *argv[]) {
             remainder = toU64(string(argv[3]));
             modulus = toU64(string(argv[4]));
         }
-        if (lower == 0) {lower = 1;}
-        if (upper == 0) {upper = 1;}
         if (modulus == 0) {modulus = 1;}
         if (lower > upper) {
             cout << "Upper bound must be greater than or equal to lower bound." << endl;
