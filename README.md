@@ -8,6 +8,7 @@ A repository for calculators in C++.
   * This calculator handles integers between 2 and 2^64-1 = 18446744073709551615, inclusive. 0, 1, and negative numbers are neither prime nor composite.
 * This calculator uses trial division to factorize integers. Thus, its worst-case time complexity is O(√(n)) where n is the number to be factored, or O(10^(d/2)) where d is the number of digits in the number's decimal representation.
   * The numbers that take the longest time to factorize are primes close to the 64-bit limit (such as `18446744073709551557`) and semiprimes with factors close to 2^32 (such as `18446743979220271189` = `4294967279 * 4294967291`). Factorizing such numbers may take several seconds.
+* This is a standalone program and does not rely on any external files, such as those in the "lib" folder.
 
 **listPrimes.cpp**:
 * Type `./listPrimes <lowerBound> <upperBound>` to list all prime numbers between lowerBound and upperBound, inclusive, along with the number of primes between said values.

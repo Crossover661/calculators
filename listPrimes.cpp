@@ -53,8 +53,6 @@ int main(int argc, char *argv[]) {
         cout << "./listPrimes <lowerBound> <upperBound> <remainder> <modulus>" << endl;
         return 1;
     }
-
-
     try {
         // set values of lower and upper bounds, remainder, and modulus based on user input
         uint64_t lower, upper, remainder = 0, modulus = 1;

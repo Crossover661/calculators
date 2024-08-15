@@ -67,7 +67,7 @@ int main(int argc, char *argv[]) {
             }
         }
         catch (const std::invalid_argument& e) {cout << "Input must be an integer.";}
-        catch (const std::out_of_range& e) {cout << "Input too large. Maximum input allowed is 2^64-1 = 18446744073709551615.";}
+        catch (const std::out_of_range& e) {cout << "Input is too large. Maximum input allowed is 2^64-1 = 18446744073709551615.";}
         cout << endl;
     }
     return 0;
