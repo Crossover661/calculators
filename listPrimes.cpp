@@ -3,7 +3,7 @@
 #include <string> // string, stoull
 #include <cstdint> // uint64_t
 #include <stdexcept>
-#include "lib/modfuncs.h"
+#include "lib/modfuncs.h" // modAdd, modExp
 using std::cout, std::endl, std::vector, std::string, std::uint64_t;
 
 uint64_t toU64(string s) {
