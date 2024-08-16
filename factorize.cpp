@@ -44,7 +44,7 @@ vector<uiPair> factorization(uint64_t n) {
 
 int main(int argc, char *argv[]) {
     if (argc <= 1) {
-        cout << "Please provide 1 or more positive integers to factorize." << endl;
+        cout << "Syntax: ./factorize <numbers to factorize>" << endl;
         return 1;
     }
     for (int i=1; i<argc; i++) {

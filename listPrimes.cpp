@@ -48,9 +48,7 @@ bool isPrime(uint64_t n) {
 
 int main(int argc, char *argv[]) {
     if (argc != 3 && argc != 5) {
-        cout << "Input must be of one of the following formats:" << endl;
-        cout << "./listPrimes <lowerBound> <upperBound>" << endl;
-        cout << "./listPrimes <lowerBound> <upperBound> <remainder> <modulus>" << endl;
+        cout << "Syntax: ./listPrimes <lowerBound> <upperBound> [<remainder> <modulus>]" << endl;
         return 1;
     }
     try {

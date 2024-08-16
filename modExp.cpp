@@ -17,8 +17,7 @@ uint64_t toU64(string s) {
 
 int main(int argc, char* argv[]) {
     if (argc != 4) {
-        cout << "Error: Incorrect input format." << endl;
-        cout << "Input must be in the form: ./modExp <base> <exponent> <modulus>" << endl;
+        cout << "Syntax: ./modExp <base> <exponent> <modulus>" << endl;
         return 1;
     }
     try {
