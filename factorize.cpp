@@ -48,10 +48,11 @@ int main(int argc, char *argv[]) {
         return 1;
     }
     for (int i=1; i<argc; i++) {
-        std::string num = argv[i];
+        std::string str = argv[i];
         try {
-            uint64_t n = std::stoull(num);
-            if (n <= 1 || num[0] == '-') {cout << num << " is neither prime nor composite.";}
+            uint64_t n = std::stoull(str);
+            if (str[0] == '-') {cout << "Input must be a positive integer.";}
+            else if (n <= 1) {cout << n << " is neither prime nor composite.";}
             else {
                 vector<uiPair> factors = factorization(n);
                 if (factors[0].first == n) {cout << n << " is prime.";}
@@ -66,7 +67,7 @@ int main(int argc, char *argv[]) {
                 }
             }
         }
-        catch (const std::invalid_argument& e) {cout << "Input must be an integer.";}
+        catch (const std::invalid_argument& e) {cout << "Input must be a positive integer.";}
         catch (const std::out_of_range& e) {cout << "Input is too large. Maximum input allowed is 2^64-1 = 18446744073709551615.";}
         cout << endl;
     }
