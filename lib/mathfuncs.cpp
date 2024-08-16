@@ -1,4 +1,4 @@
-#include "modfuncs.h"
+#include "mathfuncs.h"
 #include <cstdint>
 using std::uint64_t;
 

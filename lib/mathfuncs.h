@@ -1,5 +1,5 @@
-#ifndef MODFUNCS_H
-#define MODFUNCS_H
+#ifndef MATHFUNCS_H
+#define MATHFUNCS_H
 
 #include <cstdint>
 using std::uint64_t;
