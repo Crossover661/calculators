@@ -8,12 +8,12 @@ A repository for calculators in C++.
   * This calculator handles integers between 2 and 2^64-1 = 18446744073709551615, inclusive. 0, 1, and negative numbers are neither prime nor composite.
 * This calculator uses trial division to factorize integers. Thus, its worst-case time complexity is O(√(n)) where n is the number to be factored, or O(10^(d/2)) where d is the number of digits in the number's decimal representation.
   * The numbers that take the longest time to factorize are primes close to the 64-bit limit (such as `18446744073709551557`) and semiprimes with factors close to 2^32 (such as `18446743979220271189` = `4294967279 * 4294967291`). Factorizing such numbers may take several seconds.
-* This is a standalone program and does not rely on any external files, such as those in the "lib" folder.
+* This is a standalone program and does not include any external files, such as those in the "lib" folder.
 
 **listPrimes.cpp**:
 * Type `./listPrimes <lowerBound> <upperBound>` to list all prime numbers between lowerBound and upperBound, inclusive, along with the number of primes between said values.
   * Type `./listPrimes <lowerBound> <upperBound> <remainder> <modulus>` to restrict the list of primes to those congruent to `remainder` modulo `modulus`.
-* lowerBound and upperBound must be positive integers at most 2^64-1 = 18446744073709551615, and upperBound must be greater than or equal to lowerBound.
+* lowerBound and upperBound must be positive integers less than 2^64, and upperBound must be greater than or equal to lowerBound.
 * Examples: 
   * `./listPrimes 100 199` prints all prime numbers between 100 and 199, inclusive.
   * `./listPrimes 1000 9999 7 10` prints all 4-digit primes that are congruent to 7 modulo 10 (i.e. primes whose decimal representation ends in 7).
@@ -26,7 +26,7 @@ A repository for calculators in C++.
 * Syntax is `./modExp <base> <exponent> <modulus>`.
 * Example: `./modExp 3 11 17` returns `7`, indicating that `3^11 mod 17 = 7`. This is true because 3^11 = 177147 = 10420 * 17 + 7.
 * Another example: `./modExp 2 10657 10000` returns `7872`.
-  * This result shows that the last four digits of 2^10657 is 7872. Even though the value 2^10657 cannot be calculated directly in C++, as it is far greater than the unsigned 64-bit integer limit of 2^64-1, modular arithmetic can be used to compute the last few digits of the number.
+  * This result shows that the last four digits of 2^10657 is 7872. Even though the value 2^10657 cannot be calculated directly in C++, as it is far greater than the unsigned 64-bit integer limit of 2^64-1, modular arithmetic can be used to compute its last digits.
 * For modExp.cpp, the base and exponent must be between 0 and 2^64-1, and the modulus must be between 1 and 2^64-1, inclusive.
 
 **quadraticResidue.cpp**:
@@ -35,4 +35,4 @@ A repository for calculators in C++.
   * `./quadraticResidue 222`: Lists all quadratic residues modulo 222.
   * `./quadraticResidue 2 7` prints `2 is a quadratic residue modulo 7.`
   * `./quadraticResidue 3 7` prints `3 is NOT a quadratic residue modulo 7.`
-* Both the remainder and modulus must be positive integers less than or equal to 2^64-1.
+* Both the remainder and modulus must be positive integers less than 2^64.

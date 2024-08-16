@@ -2,7 +2,7 @@
 #include <cstdint>
 using std::uint64_t;
 
-// Implements modular addition without overflow. Helper function for modMul().
+// Implements modular addition without overflow.
 uint64_t modAdd(uint64_t x, uint64_t y, uint64_t modulus) {
     if (x >= modulus || y >= modulus) {
         x %= modulus;
@@ -12,7 +12,7 @@ uint64_t modAdd(uint64_t x, uint64_t y, uint64_t modulus) {
     else {return y - (modulus - x);} // ex. (65 + 57) % 100 = 57 - (100 - 65) = 57 - 35 = 22
 }
 
-// Implements modular multiplication by doubling to prevent overflow. Helper function for modExp().
+// Implements modular multiplication by doubling to prevent overflow.
 uint64_t modMul(uint64_t x, uint64_t y, uint64_t modulus) {
     if (x >= modulus || y >= modulus) {
         x %= modulus;

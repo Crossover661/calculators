@@ -21,7 +21,7 @@ bool mr(uint64_t n, uint64_t b) {
     if (n <= b + 1) {return true;}
     uint64_t n2 = n - 1;
     int s = 0;
-    while (n2 % 2 == 0) { 
+    while (!(n2 & 1)) { // while n2 is even
         n2 >>= 1; // remove all factors of 2 from n2
         s++; // number of factors of 2 in n-1
     }
@@ -38,12 +38,17 @@ bool mr(uint64_t n, uint64_t b) {
 /* Calculates whether n is prime, using the Miller-Rabin test on various prime bases. For positive integers
 less than 2^64, the test is deterministic when combining all prime bases from 2 through 37. */
 bool isPrime(uint64_t n) {
+    // Limits derived from https://oeis.org/A014233.
     if (n % 2 == 0) {return n == 2;} // 2 is the only even prime number
     if (n < 2047) {return n != 1 && mr(n,2);}
     if (n < 1373653) {return mr(n,2) && mr(n,3);}
     if (n < 25326001) {return mr(n,2) && mr(n,3) && mr(n,5);}
-    return (mr(n,2) && mr(n,3) && mr(n,5) && mr(n,7) && mr(n,11) && mr(n,13) && mr(n,17)
-    && mr(n,19) && mr(n,23) && mr(n,29) && mr(n,31) && mr(n,37));
+    if (n < 3215031751) {return mr(n,2) && mr(n,3) && mr(n,5) && mr(n,7);}
+    if (n < 2152302898747) {return mr(n,2) && mr(n,3) && mr(n,5) && mr(n,7) && mr(n,11);}
+    if (n < 3474749660383) {return mr(n,2) && mr(n,3) && mr(n,5) && mr(n,7) && mr(n,11) && mr(n,13);}
+    if (n < 341550071728321) {return mr(n,2) && mr(n,3) && mr(n,5) && mr(n,7) && mr(n,11) && mr(n,13) && mr(n,17);}
+    return mr(n,2) && mr(n,3) && mr(n,5) && mr(n,7) && mr(n,11) && mr(n,13)
+    && mr(n,17) && mr(n,19) && mr(n,23) && mr(n,29) && mr(n,31) && mr(n,37);
 }
 
 int main(int argc, char *argv[]) {
@@ -70,7 +75,7 @@ int main(int argc, char *argv[]) {
         upper -= modAdd(upper, modulus - remainder, modulus);
         uint64_t numSteps = (upper - lower) / modulus;
         if (numSteps > 1000000) {
-            cout << "Range of values cannot exceed " << (1000000 * modulus) << "." << endl;
+            cout << "Range of values cannot exceed 1000000 * modulus." << endl;
             return 1;
         }
 
