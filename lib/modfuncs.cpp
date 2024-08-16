@@ -21,7 +21,7 @@ uint64_t modMul(uint64_t x, uint64_t y, uint64_t modulus) {
     if (x <= 0xFFFFFFFF && y <= 0xFFFFFFFF) {return (x * y) % modulus;}
     uint64_t result = 0;
     while (y != 0) {
-        if (y % 2 != 0) {result = modAdd(result, x, modulus);}
+        if (y & 1) {result = modAdd(result, x, modulus);}
         x = modAdd(x, x, modulus);
         y >>= 1;
     }
@@ -34,7 +34,7 @@ uint64_t modExp(uint64_t base, uint64_t exp, uint64_t modulus) {
     base %= modulus;
     uint64_t result = 1;
     while (exp != 0) {
-        if (exp % 2 != 0) {result = modMul(result, base, modulus);}
+        if (exp & 1) {result = modMul(result, base, modulus);}
         base = modMul(base, base, modulus);
         exp >>= 1;
     }
