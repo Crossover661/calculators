@@ -2,7 +2,6 @@
 #include <cstdint>
 using std::uint64_t;
 
-// Implements modular addition without overflow.
 uint64_t modAdd(uint64_t x, uint64_t y, uint64_t modulus) {
     if (x >= modulus || y >= modulus) {
         x %= modulus;
@@ -12,7 +11,6 @@ uint64_t modAdd(uint64_t x, uint64_t y, uint64_t modulus) {
     else {return y - (modulus - x);} // ex. (65 + 57) % 100 = 57 - (100 - 65) = 57 - 35 = 22
 }
 
-// Implements modular multiplication by doubling to prevent overflow.
 uint64_t modMul(uint64_t x, uint64_t y, uint64_t modulus) {
     if (x >= modulus || y >= modulus) {
         x %= modulus;
@@ -28,7 +26,6 @@ uint64_t modMul(uint64_t x, uint64_t y, uint64_t modulus) {
     return result;
 }
 
-// Performs modular exponentiation by squaring. Ex: modExp(2,91,1000) = 2^91 mod 1000 = 448
 uint64_t modExp(uint64_t base, uint64_t exp, uint64_t modulus) {
     if (modulus <= 1) {return 0;}
     base %= modulus;
@@ -39,4 +36,14 @@ uint64_t modExp(uint64_t base, uint64_t exp, uint64_t modulus) {
         exp >>= 1;
     }
     return result;
+}
+
+uint64_t intSqrt(uint64_t n) {
+    if (n <= 1) {return n;} // sqrt(0) = 0 and sqrt(1) = 1
+    uint64_t x = n, y = (x - 1)/2 + 1;
+    while (x > y) {
+        x = y;
+        y = (x + n/x)/2;
+    }
+    return x;
 }
