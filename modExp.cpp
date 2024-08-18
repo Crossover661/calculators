@@ -27,7 +27,7 @@ int main(int argc, char* argv[]) {
             cout << "Modulus must be greater than or equal to 1." << endl;
             return 1;
         }
-        cout << modExp(base, exponent, modulus) << endl;
+        cout << math::modExp(base, exponent, modulus) << endl;
         return 0;
     }
     catch (const std::exception& e) {

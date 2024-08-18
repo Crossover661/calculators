@@ -18,28 +18,16 @@ uint64_t toU64(string s) {
     catch (const std::out_of_range& e) {throw std::out_of_range("Input is too large. Maximum value allowed is 2^64-1 = 18446744073709551615.");}
 }
 
-// Raises base to the power of exp.
-uint64_t pow(uint64_t base, uint64_t exp) {
-    if (base == 2) {return uint64_t(1) << exp;}
-    uint64_t result = 1;
-    while (exp != 0) {
-        if (exp % 2 != 0) {result *= base;}
-        base *= base;
-        exp >>= 1;
-    }
-    return result;
-}
-
 // Calculates the Legendre symbol of n modulo a given odd prime modulus p. If this is equal to 0 or 1, n is a quadratic residue modulo p. If it is -1, n is a quadratic nonresidue modulo p.
 int legendre(uint64_t n, uint64_t p) {
-    uint64_t legendreSymbol = modExp(n, (p-1)/2, p);
+    uint64_t legendreSymbol = math::modExp(n, (p-1)/2, p);
     if (legendreSymbol <= 1) {return static_cast<int>(legendreSymbol);}
     else {return -1;}
 }
 
 // Calculates whether a non-negative integer n is a quadratic residue modulo a prime power p^e. Returns true if n is a residue and false otherwise.
 bool isResidueP(uint64_t n, uint64_t p, uint64_t e) {
-    n %= pow(p, e); // clamp n to be in the range [0, p^e)
+    n %= math::pow(p, e); // clamp n to be in the range [0, p^e)
     while (n % (p * p) == 0 && e >= 2) { // factor out squares, ex: 50 mod 125 --> 2 mod 5
         n /= (p * p);
         e -= 2;

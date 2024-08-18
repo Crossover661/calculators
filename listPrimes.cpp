@@ -25,10 +25,10 @@ bool mr(uint64_t n, uint64_t b) {
         n2 >>= 1; // remove all factors of 2 from n2
         s++; // number of factors of 2 in n-1
     }
-    uint64_t x = modExp(b, n2, n);
+    uint64_t x = math::modExp(b, n2, n);
     uint64_t y;
     for (int i=0; i<s; i++) {
-        y = modExp(x, 2, n);
+        y = math::modExp(x, 2, n);
         if (y == 1 && x != 1 && x != (n-1)) {return false;}
         x = y;
     }
@@ -71,8 +71,8 @@ int main(int argc, char *argv[]) {
             return 1;
         }
         remainder %= modulus;
-        lower += modAdd(remainder, modulus - lower, modulus);
-        upper -= modAdd(upper, modulus - remainder, modulus);
+        lower += math::modAdd(remainder, modulus - lower, modulus);
+        upper -= math::modAdd(upper, modulus - remainder, modulus);
         uint64_t numSteps = (upper - lower) / modulus;
         if (numSteps > 1000000) {
             cout << "Range of values cannot exceed 1000000 * modulus." << endl;
