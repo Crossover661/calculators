@@ -1,17 +1,17 @@
-#include "mathfuncs.h"
 #include <cstdint>
+#include "mathfuncs.h"
 using std::uint64_t;
 
 namespace math {
 
     uint64_t modAdd(uint64_t x, uint64_t y, uint64_t modulus) {
-    if (x >= modulus || y >= modulus) {
-        x %= modulus;
-        y %= modulus;
-    }
-    if (y < modulus - x) {return x + y;}
-    else {return y - (modulus - x);} // ex. (65 + 57) % 100 = 57 - (100 - 65) = 57 - 35 = 22
-}
+        if (x >= modulus || y >= modulus) {
+            x %= modulus;
+            y %= modulus;
+        }
+        if (y < modulus - x) {return x + y;}
+        else {return y - (modulus - x);} // ex. (65 + 57) % 100 = 57 - (100 - 65) = 57 - 35 = 22
+    }   
 
     uint64_t modMul(uint64_t x, uint64_t y, uint64_t modulus) {
         if (x >= modulus || y >= modulus) {
