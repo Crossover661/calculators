@@ -43,10 +43,7 @@ vector<uiPair> factorization(uint64_t n) {
 }
 
 int main(int argc, char *argv[]) {
-    if (argc <= 1) {
-        cout << "Syntax: ./factorize <numbers to factorize>" << endl;
-        return 1;
-    }
+    if (argc <= 1) {cout << "Syntax: ./factorize <numbers_to_factorize>" << endl;}
     for (int i=1; i<argc; i++) {
         std::string str = argv[i];
         try {
