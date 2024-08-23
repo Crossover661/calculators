@@ -2,7 +2,7 @@
 #include <cstdint> // uint64_t
 #include <string> // string, stoull
 #include <stdexcept> // exceptions
-#include "lib/mathfuncs.hpp" // modExp
+#include "lib/mathfuncs.h" // modExp
 using std::cout, std::endl, std::string, std::uint64_t;
 
 uint64_t toU64(string s) {

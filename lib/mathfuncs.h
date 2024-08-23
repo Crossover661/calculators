@@ -1,5 +1,5 @@
-#ifndef MATHFUNCS_HPP
-#define MATHFUNCS_HPP
+#ifndef MATHFUNCS_H
+#define MATHFUNCS_H
 
 #include <cstdint>
 using std::uint64_t;
