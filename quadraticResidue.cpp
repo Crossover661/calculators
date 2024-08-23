@@ -4,7 +4,7 @@
 #include <vector> // vector
 #include <string> // string, stoull
 #include <stdexcept> // exceptions
-#include "lib/mathfuncs.h" // modExp
+#include "lib/mathfuncs.hpp" // modExp
 using std::cout, std::endl, std::vector, std::string, std::uint64_t;
 typedef std::pair<uint64_t, uint64_t> uuPair;
 

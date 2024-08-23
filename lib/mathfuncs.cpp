@@ -1,5 +1,5 @@
 #include <cstdint>
-#include "mathfuncs.h"
+#include "mathfuncs.hpp"
 using std::uint64_t;
 
 namespace math {
