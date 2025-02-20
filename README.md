@@ -6,7 +6,7 @@ A repository for calculators in C++.
   * `./factorize 2024` prints `2024 is composite. 2024 = 2^3 * 11 * 23`
   * `./factorize 2 22 2024 11 23` prints the prime factorizations of 2, 22, 2024, 11, and 23, each on its own line.
   * This calculator handles integers between 2 and 2^64-1 = 18446744073709551615, inclusive. 0, 1, and negative numbers are neither prime nor composite.
-* This calculator uses trial division to factorize integers. Thus, its worst-case time complexity is O(√(n)) where n is the number to be factored, or O(10^(d/2)) where d is the number of digits in the number's decimal representation.
+* This calculator uses trial division to factorize integers. Thus, its worst-case time complexity is O(√(n)) where n is the number to be factored, or O(2^(b/2)) where b is the size of the integer in bits.
   * The numbers that take the longest time to factorize are primes close to the 64-bit limit (such as `18446744073709551557`) and semiprimes with factors close to 2^32 (such as `18446743979220271189` = `4294967279 * 4294967291`). Factorizing such numbers may take several seconds.
 * This is a standalone program and does not include any external files, such as those in the "lib" folder.
 
